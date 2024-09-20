@@ -60,7 +60,6 @@ const CreateClassAssignmentForm = ({
     });
     const resourcesArray = useFieldArray({
         control: form.control,
-        // @ts-ignore
         name: "resources",
     });
 

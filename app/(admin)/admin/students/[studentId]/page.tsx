@@ -9,7 +9,6 @@ export default async function StudentInfoPage({
 }: {
     params: { studentId: string };
 }) {
-    // @ts-ignore
     const { student, responses } = await getStudentById(params.studentId);
 
     if (!student) {
