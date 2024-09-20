@@ -9,9 +9,7 @@ export default async function StudentInfoPage({
 }: {
     params: { studentId: string };
 }) {
-    const { student: student, responses: responses } = await getStudentById(
-        params.studentId
-    );
+    const student = await getStudentById(params.studentId);
 
     if (!student) {
         return <div>No student found</div>;
@@ -22,8 +20,8 @@ export default async function StudentInfoPage({
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 <StudentInfoCard student={student?.student} />
                 <AssignmentInfoCard
-                    submitted={responses.length}
-                    pending={responses.length}
+                    submitted={student?.responses.length}
+                    pending={student?.responses.length}
                 />
             </div>
             <Card>
