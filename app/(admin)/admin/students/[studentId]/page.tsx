@@ -2,9 +2,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import StudentInfoCard from "@/components/StudentComponents/StudentInfoCard";
 import AssignmentInfoCard from "@/components/StudentComponents/AssignmentsInfoCard";
 import { getStudentById } from "@/actions/admin.actions";
-import StudentAssignmentTable, {
-    SubmissionData,
-} from "@/components/StudentComponents/columns";
+import StudentAssignmentTable from "@/components/StudentComponents/columns";
 
 export default async function StudentInfoPage({
     params,
