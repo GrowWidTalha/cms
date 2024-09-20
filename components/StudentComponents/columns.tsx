@@ -34,7 +34,7 @@ type Assignment = {
     $id: string;
 };
 
-type SubmissionData = {
+export type SubmissionData = {
     answers: string[];
     $id: string;
     $createdAt: string;

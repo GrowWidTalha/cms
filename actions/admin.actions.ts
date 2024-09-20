@@ -4,9 +4,11 @@ import { ADMIN_ASSIGN_COLL_ID, ADMIN_ASSIGN_SUB_COLL_ID, DATABASE_ID, databases,
 import { resend } from "@/lib/resend";
 import { parseStringify } from "@/lib/utils";
 import { CreateAssignmentProps, CreateTeacherProps } from "@/types";
-import { AdminAssignment } from "@/types/types.appwrite";
+import { AdminAssignment, AdminAssignmentSubmission } from "@/types/types.appwrite";
 import { revalidatePath } from "next/cache";
 import { ID, Query } from "node-appwrite";
+import { Student } from "@/types/types.appwrite";
+import { SubmissionData } from "@/components/StudentComponents/columns";
 
 export const createAssignment = async (assignment: CreateAssignmentProps) => {
     try {
@@ -91,9 +93,9 @@ export const getAllStudents = async (slot?: string) => {
 
 export const getStudentById = async (studentId: string) => {
     try {
-        const student = await databases.getDocument(DATABASE_ID!, USER_COLLECTION_ID!, studentId);
+        const student: Student = await databases.getDocument(DATABASE_ID!, USER_COLLECTION_ID!, studentId);
         const responses = await databases.listDocuments(DATABASE_ID!, ADMIN_ASSIGN_SUB_COLL_ID!, [Query.equal("student", student.$id)]);
-        return {student, responses: responses.documents};
+        return {student , responses: responses.documents};
     } catch (error) {
         console.log('Error Getting Student By Id: ', error)
     }
