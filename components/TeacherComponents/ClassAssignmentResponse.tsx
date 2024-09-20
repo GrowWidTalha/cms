@@ -23,12 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowUpDown, Github, Globe, Linkedin } from "lucide-react";
-import { Models } from "appwrite";
-import {
-    AdminAssignmentSubmission,
-    ClassAssigments,
-    ClassAssignmentSubmission,
-} from "@/types/types.appwrite";
+import { ClassAssignmentSubmission } from "@/types/types.appwrite";
 import { formatDateTime } from "@/lib/utils";
 
 export const Columns: ColumnDef<ClassAssignmentSubmission>[] = [

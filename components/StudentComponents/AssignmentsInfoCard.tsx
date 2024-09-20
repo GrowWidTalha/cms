@@ -1,13 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const AssignmentInfoCard = ({
-    submitted,
-    pending,
-}: {
-    submitted: number;
-    pending: number;
-}) => (
+const AssignmentInfoCard = ({ submitted }: { submitted: number }) => (
     <Card>
         <CardHeader className="flex items-center justify-between">
             <CardTitle>Assignments</CardTitle>

@@ -1,7 +1,5 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
 import ProgressBar from "@/components/StudentComponents/ProgressBar";
 
 export default function Dashboard() {

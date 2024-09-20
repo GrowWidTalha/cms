@@ -18,7 +18,7 @@ import {
 } from "../ui/form";
 import dynamic from "next/dynamic";
 import { DateTimePicker } from "../ui/DateTimePicker";
-import { Plus, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { Switch } from "../ui/switch";
 import SubmitButton from "../shared/SubmitButton";
 import { createAssignment, updateAssignment } from "@/actions/admin.actions";
@@ -68,12 +68,10 @@ const CreateAssignmentForm = ({
     });
     const { fields, append, remove } = useFieldArray({
         control: form.control,
-        // @ts-ignore
         name: "milestones",
     });
     const resourcesArray = useFieldArray({
         control: form.control,
-        // @ts-ignore
         name: "resources",
     });
 

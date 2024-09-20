@@ -92,7 +92,10 @@ export default function CreateTeacherForm({
                     form.reset();
                 }
             } else {
-                const response = await updateTeacher(teacher?.$id!, {
+                if (!teacher) {
+                    return;
+                }
+                const response = await updateTeacher(teacher.$id, {
                     name: data.name,
                     email: data.email,
                     password: data.password,
@@ -119,7 +122,6 @@ export default function CreateTeacherForm({
     };
 
     const handleNewSlotCreated = (newSlot: { $id: string; time: string }) => {
-        // @ts-ignore
         setSlots((prevSlots) => [...prevSlots, newSlot]);
         form.setValue("slot", newSlot.$id);
     };

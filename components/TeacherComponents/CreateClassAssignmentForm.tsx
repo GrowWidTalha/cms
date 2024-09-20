@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import { useState } from "react";
@@ -12,7 +11,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -20,7 +18,7 @@ import {
 } from "../ui/form";
 import dynamic from "next/dynamic";
 
-import { Plus, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { Switch } from "../ui/switch";
 import SubmitButton from "../shared/SubmitButton";
 import { toast } from "sonner";
@@ -31,7 +29,6 @@ import {
 } from "@/actions/teacher.actions";
 import Loader from "@/app/loading";
 import { getSession } from "next-auth/react";
-import { auth } from "@/auth";
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), {
     ssr: false,
     loading: () => <Loader />,

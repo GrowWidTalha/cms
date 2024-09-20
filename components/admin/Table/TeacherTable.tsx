@@ -21,12 +21,6 @@ import { Button } from "@/components/ui/button";
 import { Teacher } from "@/types/types.appwrite";
 import UpdateTeacherDialog from "../UpdateTeacherDialog";
 
-type Person = {
-    name: string;
-    email: string;
-    slot: string;
-};
-
 const columns: ColumnDef<Teacher>[] = [
     {
         accessorKey: "name",

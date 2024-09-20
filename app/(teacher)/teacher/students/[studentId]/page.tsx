@@ -9,7 +9,8 @@ export default async function StudentInfoPage({
 }: {
     params: { studentId: string };
 }) {
-    const student = await getStudentById(params.studentId);
+    // @ts-ignore
+    const { student, responses } = await getStudentById(params.studentId);
     if (!student) {
         return <div>No student found</div>;
     }
@@ -17,8 +18,7 @@ export default async function StudentInfoPage({
     return (
         <div className="flex flex-col gap-8 p-12 sm:p-12 md:p-10 lg:p-16">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {/* @ts-ignore */}
-                <StudentInfoCard student={student?.student!} />
+                <StudentInfoCard student={student} />
                 <AssignmentInfoCard
                     submitted={student?.responses.length}
                     pending={student?.responses.length}
@@ -29,8 +29,7 @@ export default async function StudentInfoPage({
                     <CardTitle>Assignments</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    {/* @ts-ignore */}
-                    <StudentAssignmentTable submissions={student?.responses} />
+                    <StudentAssignmentTable submissions={responses} />
                 </CardContent>
             </Card>
         </div>

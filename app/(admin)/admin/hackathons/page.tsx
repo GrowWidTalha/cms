@@ -1,7 +1,6 @@
 import { getAllAssignments } from "@/actions/admin.actions";
 import AssignmentCard from "@/components/admin/AssignmentCard";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { AdminAssignment } from "@/types/types.appwrite";
 import Link from "next/link";
 

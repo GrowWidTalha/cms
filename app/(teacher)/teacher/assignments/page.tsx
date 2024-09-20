@@ -1,6 +1,5 @@
 import { getAllClassAssignments } from "@/actions/teacher.actions";
 import { auth } from "@/auth";
-import AssignmentCard from "@/components/admin/AssignmentCard";
 import ClassAssignmentCard from "@/components/TeacherComponents/ClassAssingmentCard";
 import { Button } from "@/components/ui/button";
 import { ClassAssigments } from "@/types/types.appwrite";

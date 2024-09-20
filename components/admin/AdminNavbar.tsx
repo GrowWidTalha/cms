@@ -10,6 +10,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import Image from "next/image";
 
 const AdminNavbar = () => {
     return (
@@ -37,7 +38,7 @@ const AdminNavbar = () => {
                             size="icon"
                             className="rounded-full"
                         >
-                            <img
+                            <Image
                                 src="/placeholder.svg"
                                 width="32"
                                 height="32"

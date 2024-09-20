@@ -5,7 +5,7 @@
  */
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { AdminAssignment, ClassAssigments } from "@/types/types.appwrite";
+import { ClassAssigments } from "@/types/types.appwrite";
 import { formatDateTime } from "@/lib/utils";
 import Link from "next/link";
 import {

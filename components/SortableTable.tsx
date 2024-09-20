@@ -10,19 +10,27 @@ import {
 } from "@/components/ui/table";
 import { ChevronUpIcon, ChevronDownIcon } from "@radix-ui/react-icons";
 
-const SortableTable = ({
+interface Column {
+    key: string;
+    label: string;
+    render?: (value: any) => JSX.Element;
+}
+
+interface SortableTableProps {
+    data: object[];
+    columns: Column[];
+    initialSortColumn: string;
+}
+
+const SortableTable: React.FC<SortableTableProps> = ({
     data,
     columns,
     initialSortColumn,
-}: {
-    data: any;
-    columns: any;
-    initialSortColumn: any;
 }) => {
     const [sortColumn, setSortColumn] = useState(initialSortColumn);
-    const [sortDirection, setSortDirection] = useState("asc");
+    const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
     console.log(data);
-    const handleSort = (column) => {
+    const handleSort = (column: string) => {
         if (column === sortColumn) {
             setSortDirection(sortDirection === "asc" ? "desc" : "asc");
         } else {

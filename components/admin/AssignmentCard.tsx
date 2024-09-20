@@ -1,11 +1,6 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/pSMTZWA7JLY
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { AdminAssignment, ClassAssigments } from "@/types/types.appwrite";
+import { AdminAssignment } from "@/types/types.appwrite";
 import { formatDateTime } from "@/lib/utils";
 import Link from "next/link";
 import {

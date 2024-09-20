@@ -5,16 +5,11 @@
  */
 import Link from "next/link";
 import { Switch } from "@/components/ui/switch";
-import { getAssignmentById } from "@/actions/admin.actions";
 import {
     StudentDataTable,
     Columns,
 } from "@/components/TeacherComponents/ClassAssignmentResponse";
-import {
-    AdminAssignment,
-    AdminAssignmentSubmission,
-    ClassAssignmentSubmission,
-} from "@/types/types.appwrite";
+import { ClassAssignmentSubmission } from "@/types/types.appwrite";
 import {
     getClassAssignmentById,
     getClassAssignmentResponses,
