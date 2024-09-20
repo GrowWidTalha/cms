@@ -84,7 +84,7 @@ const assignmentColumns = [
 export default function StudentAssignmentTable({
     submissions,
 }: {
-    submissions: SubmissionData[];
+    submissions: any[];
 }) {
     return (
         <Table>

@@ -26,12 +26,7 @@ export default async function StudentInfoPage({
                     <CardTitle>Assignments</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    {
-                        <StudentAssignmentTable
-                            // @ts-nocheck
-                            submissions={student.responses}
-                        />
-                    }
+                    <StudentAssignmentTable submissions={student.responses} />
                 </CardContent>
             </Card>
         </div>
