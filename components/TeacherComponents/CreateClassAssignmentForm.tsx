@@ -58,8 +58,13 @@ const CreateClassAssignmentForm = ({
             isPublished: initialData?.isPublished || false,
         },
     });
-    const resourcesArray = useFieldArray({
+
+    // Specify the type for resourcesArray
+    const resourcesArray = useFieldArray<
+        z.infer<typeof CreateAssignmentSchema>
+    >({
         control: form.control,
+        // @ts-ignore
         name: "resources",
     });
 
