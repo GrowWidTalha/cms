@@ -75,9 +75,11 @@ export const updateAssignment = async (assignmentId: string, assignment: CreateA
 };
 
 
-export const getAllStudents = async () => {
+export const getAllStudents = async (slot?: string) => {
    try {
-       const students = await databases.listDocuments(DATABASE_ID!, USER_COLLECTION_ID!)
+       const students = await databases.listDocuments(DATABASE_ID!, USER_COLLECTION_ID!,
+        slot ? [Query.equal("slot", slot)] : [] // Use an empty array if slot is undefined
+       )
        return {
         total: students.total,
         students: students.documents
@@ -164,6 +166,7 @@ export const updateTeacher = async (teacherId: string, teacher: CreateTeacherPro
         })
         revalidatePath('/admin/teachers');
         revalidatePath(`/admin/teachers/${teacherId}/update`);
+        revalidatePath('/teacher/profile')
         return parseStringify(document);
     } catch (error) {
         console.log('Error Updating Teacher: ', error)

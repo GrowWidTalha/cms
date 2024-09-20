@@ -31,6 +31,7 @@ import {
 } from "@/actions/teacher.actions";
 import Loader from "@/app/loading";
 import { getSession } from "next-auth/react";
+import { auth } from "@/auth";
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), {
     ssr: false,
     loading: () => <Loader />,
@@ -60,10 +61,6 @@ const CreateClassAssignmentForm = ({
             isPublished: initialData?.isPublished || false,
         },
     });
-    const session = getSession();
-    session.then((data) => {
-        console.log(data);
-    });
     const resourcesArray = useFieldArray({
         control: form.control,
         // @ts-ignore
@@ -71,6 +68,8 @@ const CreateClassAssignmentForm = ({
     });
 
     const onSubmit = async (values: z.infer<typeof CreateAssignmentSchema>) => {
+        const session = await getSession();
+        if (!session) return null;
         setIsLoading(true);
         try {
             if (formType === "create") {
@@ -79,8 +78,8 @@ const CreateClassAssignmentForm = ({
                     description: values.description,
                     resources: values.resources,
                     isPublished: values.isPublished,
-                    teacher: "",
-                    classSlot: "",
+                    teacher: session.user.id,
+                    classSlot: session.user.slots.$id,
                 };
                 const assignment = await createClassAssignment(assignnment);
                 if (assignment) {
@@ -93,8 +92,8 @@ const CreateClassAssignmentForm = ({
                     description: values.description,
                     resources: values.resources,
                     isPublished: values.isPublished,
-                    teacher: "teacher",
-                    classSlot: "slot",
+                    teacher: session.user.id,
+                    classSlot: session.user.slots.$id,
                 };
                 const document = await updateClassAssignment(
                     initialData?.$id as string,

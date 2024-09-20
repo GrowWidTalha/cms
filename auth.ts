@@ -21,7 +21,7 @@ export const authConfig = {
             }
             return {
               id: student?.id,
-              name: student?.email,
+              name: student?.name,
               email: student?.email,
               role: 'student',
               rollNumber: student?.rollNumber,
@@ -61,8 +61,7 @@ export const authConfig = {
         session.user.slots = token.slots;
         // Include other necessary user data
       }
-      console.log("SESSION: ",session)
-      return session;
+     return session;
     },
   },
   pages: {

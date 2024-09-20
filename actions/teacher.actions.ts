@@ -1,5 +1,5 @@
 "use server"
-import { CLASS_ASSIGN_COLL_ID, DATABASE_ID, databases, TEACHER_COLL_ID } from "@/lib/appwrite"
+import { CLASS_ASSIGN_COLL_ID, CLASS_ASSIGN_SUB_COLL_ID, DATABASE_ID, databases, TEACHER_COLL_ID } from "@/lib/appwrite"
 import { CreateClassAssignmentProps, UpdateClassAssignmentProps } from "@/types"
 import { ClassAssigments } from "@/types/types.appwrite";
 import { revalidatePath } from "next/cache";
@@ -12,7 +12,7 @@ export const createClassAssignment = async (assignment: CreateClassAssignmentPro
         description: assignment.description,
         resources: assignment.resources,
         teacher: assignment.teacher,
-        classSlot: assignment.classSlot,
+        slot: assignment.classSlot,
         isPublished: assignment.isPublished,
        })
        return document
@@ -60,8 +60,33 @@ export const getClassAssignmentById = async (assignmentId: string) => {
 
 export const getAllClassAssignments = async (slot: string) => {
    try {
-       const assignments = await databases.listDocuments(DATABASE_ID!, CLASS_ASSIGN_COLL_ID!, [Query.equal("slots", slot)])
+       const assignments = await databases.listDocuments(DATABASE_ID!, CLASS_ASSIGN_COLL_ID!, [Query.equal("slot", slot)])
        return assignments.documents as ClassAssigments[]
+   } catch (error) {
+       console.log('', error)
+   }
+}
+
+
+export const getClassAssignmentResponses = async (assignmentId: string) => {
+   try {
+       const document = await databases.listDocuments(
+        DATABASE_ID!,
+        CLASS_ASSIGN_SUB_COLL_ID!,
+        [Query.equal("Assignments", assignmentId)]
+       )
+       console.log(document.documents)
+       return document.documents
+   } catch (error) {
+       console.log('Error getting class assignment responses: ', error)
+   }
+}
+
+
+export const getTeacherById = async (teacherId: string) => {
+   try {
+    const teacher = await databases.getDocument(DATABASE_ID!, TEACHER_COLL_ID!, teacherId)
+    return teacher
    } catch (error) {
        console.log('', error)
    }

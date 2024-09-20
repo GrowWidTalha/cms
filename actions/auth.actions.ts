@@ -28,6 +28,7 @@ export async function authenticateUser(email: string, password: string, rollNumb
     }
 
     return {
+        name: user.name,
       id: user.$id,
       email: user.email,
       rollNumber: user.rollNumber,

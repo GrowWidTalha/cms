@@ -5,6 +5,7 @@ export interface ClassAssigments extends Models.Document {
     description: string;
     classSlot: ClassSlot;
     teacher: Teacher
+    isPublished: boolean;
     resources: string[];
 }
 

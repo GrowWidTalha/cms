@@ -26,7 +26,7 @@ const StudentInfoCard = ({ student }: { student: Student }) => (
             <div className="grid gap-1">
                 <div className="text-sm font-medium">Class Timing</div>
                 <div className="text-sm text-muted-foreground">
-                    {student.classTiming}
+                    {student.slot.time}
                 </div>
             </div>
         </CardContent>

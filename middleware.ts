@@ -16,10 +16,12 @@ export const authRoutes = [
     "/auth/new-verification"
   ];
 
+//   @ts-ignore
 export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isTeacherRoute = nextUrl.pathname.startsWith("/teacher");
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
@@ -43,10 +45,14 @@ export default auth((req) => {
       callbackUrl += nextUrl.search;
     }
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
-    return Response.redirect(new URL(
-      `/auth/login?callbackUrl=${encodedCallbackUrl}`,
-      nextUrl
-    ));
+    if(isTeacherRoute){
+        return Response.redirect(new URL(
+          `/teacher/login?callbackUrl=${encodedCallbackUrl}`,
+          nextUrl
+        ));
+    } else {
+        return Response.redirect(new URL(`/login?callbackUrl=${encodedCallbackUrl}`))
+    }
   }
 
   // Allow all other routes

@@ -25,45 +25,56 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { Student } from "@/types/types.appwrite";
 
-const columns: ColumnDef<Student>[] = [
-    {
-        accessorKey: "name",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Name
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            );
+export default function StudentTable({
+    data,
+    teacherDashboard,
+}: {
+    data: Student[];
+    teacherDashboard?: boolean;
+}) {
+    const columns: ColumnDef<Student>[] = [
+        {
+            accessorKey: "name",
+            header: ({ column }) => {
+                return (
+                    <Button
+                        variant="ghost"
+                        onClick={() =>
+                            column.toggleSorting(column.getIsSorted() === "asc")
+                        }
+                    >
+                        Name
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </Button>
+                );
+            },
+            cell: ({ row }) => {
+                return (
+                    <Link
+                        href={
+                            teacherDashboard
+                                ? `/teacher/students/${row.original.$id}`
+                                : `/admin/students/${row.original.$id}`
+                        }
+                    >
+                        {row.original.name}
+                    </Link>
+                );
+            },
         },
-        cell: ({ row }) => {
-            return (
-                <Link href={`/admin/students/${row.original.$id}`}>
-                    {row.original.name}
-                </Link>
-            );
+        {
+            accessorKey: "email",
+            header: "Email",
         },
-    },
-    {
-        accessorKey: "email",
-        header: "Email",
-    },
-    {
-        accessorKey: "rollNumber",
-        header: "Roll Number",
-    },
-    {
-        accessorKey: "classTiming",
-        header: "Class Timing",
-    },
-];
-
-export default function StudentTable({ data }: { data: Student[] }) {
+        {
+            accessorKey: "rollNumber",
+            header: "Roll Number",
+        },
+        {
+            accessorKey: "classTiming",
+            header: "Class Timing",
+        },
+    ];
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);

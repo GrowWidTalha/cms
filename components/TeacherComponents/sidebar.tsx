@@ -4,7 +4,6 @@ import {
     MountainIcon,
     HomeIcon,
     FileIcon,
-    CodeIcon,
     UsersIcon,
     PencilIcon,
     LogOutIcon,
@@ -12,7 +11,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-
+import { signOut } from "next-auth/react";
 const SideBar = () => {
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
     return (
@@ -96,6 +95,7 @@ const SideBar = () => {
                 <Button
                     className="flex w-full justify-start items-center gap-2 rounded-md px-3 py-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                     variant={"ghost"}
+                    onClick={async () => await signOut()}
                 >
                     <LogOutIcon className={`h-5 w-5 `} />
                     <span

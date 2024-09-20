@@ -96,17 +96,30 @@ export default function StudentAssignmentTable({
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {submissions.map((submission) => (
-                    <TableRow key={submission.$id}>
-                        {assignmentColumns.map((column) => (
-                            <TableCell key={`${submission.$id}-${column.key}`}>
-                                {column.render
-                                    ? column.render(submission)
-                                    : (submission as any)[column.key]}
-                            </TableCell>
-                        ))}
+                {submissions.length === 0 ? ( // Check if there are no submissions
+                    <TableRow>
+                        <TableCell
+                            colSpan={assignmentColumns.length}
+                            className="text-center text-lg"
+                        >
+                            No assignments submitted
+                        </TableCell>
                     </TableRow>
-                ))}
+                ) : (
+                    submissions.map((submission) => (
+                        <TableRow key={submission.$id}>
+                            {assignmentColumns.map((column) => (
+                                <TableCell
+                                    key={`${submission.$id}-${column.key}`}
+                                >
+                                    {column.render
+                                        ? column.render(submission)
+                                        : (submission as any)[column.key]}
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    ))
+                )}
             </TableBody>
         </Table>
     );
