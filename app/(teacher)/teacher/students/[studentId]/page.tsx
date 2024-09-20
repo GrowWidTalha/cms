@@ -18,10 +18,7 @@ export default async function StudentInfoPage({
         <div className="flex flex-col gap-8 p-12 sm:p-12 md:p-10 lg:p-16">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 <StudentInfoCard student={student} />
-                <AssignmentInfoCard
-                    submitted={student?.responses.length}
-                    pending={student?.responses.length}
-                />
+                <AssignmentInfoCard submitted={student?.responses.length} />
             </div>
             <Card>
                 <CardHeader className="flex items-center justify-between">
