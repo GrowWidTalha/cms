@@ -114,8 +114,7 @@ export default function StudentAssignmentTable({
                                 >
                                     {column.render
                                         ? column.render(submission)
-                                        : // @ts-ignore
-                                          submission[column.key]}
+                                        : submission[column.key]}
                                 </TableCell>
                             ))}
                         </TableRow>
