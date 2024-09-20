@@ -13,7 +13,7 @@ import { ChevronUpIcon, ChevronDownIcon } from "@radix-ui/react-icons";
 interface Column {
     key: string;
     label: string;
-    render?: (value: any) => JSX.Element;
+    render?: (value: string) => JSX.Element;
 }
 
 interface SortableTableProps {
