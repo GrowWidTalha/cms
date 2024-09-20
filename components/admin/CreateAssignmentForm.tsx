@@ -68,10 +68,12 @@ const CreateAssignmentForm = ({
     });
     const { fields, append, remove } = useFieldArray({
         control: form.control,
+        // @ts-ignore
         name: "milestones",
     });
     const resourcesArray = useFieldArray({
         control: form.control,
+        // @ts-ignore
         name: "resources",
     });
 
@@ -223,6 +225,7 @@ const CreateAssignmentForm = ({
                         variant="outline"
                         size="sm"
                         className="mt-2"
+                        // @ts-ignore
                         onClick={() => append("")}
                     >
                         Add Milestones
@@ -266,6 +269,7 @@ const CreateAssignmentForm = ({
                         variant="outline"
                         size="sm"
                         className="mt-2"
+                        // @ts-ignore
                         onClick={() => resourcesArray.append("")}
                     >
                         Add Resources
