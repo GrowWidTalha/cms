@@ -95,7 +95,7 @@ export const getStudentById = async (studentId: string) => {
     try {
         const student: Student = await databases.getDocument(DATABASE_ID!, USER_COLLECTION_ID!, studentId);
         const responses = await databases.listDocuments(DATABASE_ID!, ADMIN_ASSIGN_SUB_COLL_ID!, [Query.equal("student", student.$id)]);
-        return {student , responses: responses.documents};
+        return {student , responses: responses.documents as SubmissionData[]};
     } catch (error) {
         console.log('Error Getting Student By Id: ', error)
     }

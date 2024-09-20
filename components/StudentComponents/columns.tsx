@@ -11,6 +11,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { Models } from "appwrite";
 
 // Define types based on the provided data structure
 type Student = {
@@ -34,13 +35,11 @@ type Assignment = {
     $id: string;
 };
 
-export type SubmissionData = {
+export interface SubmissionData extends Models.Document {
     answers: string[];
-    $id: string;
-    $createdAt: string;
     student: Student;
     assignment: Assignment;
-};
+}
 
 const assignmentColumns = [
     {
@@ -84,7 +83,7 @@ const assignmentColumns = [
 export default function StudentAssignmentTable({
     submissions,
 }: {
-    submissions: any[];
+    submissions: SubmissionData[];
 }) {
     return (
         <Table>
