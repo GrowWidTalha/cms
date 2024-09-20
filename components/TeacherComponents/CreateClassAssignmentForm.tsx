@@ -188,7 +188,8 @@ const CreateClassAssignmentForm = ({
                         variant="outline"
                         size="sm"
                         className="mt-2"
-                        onClick={() => resourcesArray.append({ resource: "" })} // Updated to append an object
+                        // @ts-ignore
+                        onClick={() => resourcesArray.append("")} // Append an empty string instead
                     >
                         Add Resources
                     </Button>
