@@ -1,5 +1,6 @@
 "use server"
 import { CLASS_ASSIGN_COLL_ID, CLASS_ASSIGN_SUB_COLL_ID, DATABASE_ID, databases, TEACHER_COLL_ID } from "@/lib/appwrite"
+import { parseStringify } from "@/lib/utils";
 import { CreateClassAssignmentProps, UpdateClassAssignmentProps } from "@/types"
 import { ClassAssigments } from "@/types/types.appwrite";
 import { revalidatePath } from "next/cache";
@@ -86,7 +87,7 @@ export const getClassAssignmentResponses = async (assignmentId: string) => {
 export const getTeacherById = async (teacherId: string) => {
    try {
     const teacher = await databases.getDocument(DATABASE_ID!, TEACHER_COLL_ID!, teacherId)
-    return teacher
+    return parseStringify(teacher)
    } catch (error) {
        console.log('', error)
    }
