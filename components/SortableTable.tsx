@@ -17,7 +17,7 @@ interface Column {
 }
 
 interface SortableTableProps {
-    data: object[];
+    data: Record<string, any>[]; // Updated type for data
     columns: Column[];
     initialSortColumn: string;
 }
