@@ -188,7 +188,7 @@ const CreateClassAssignmentForm = ({
                         variant="outline"
                         size="sm"
                         className="mt-2"
-                        onClick={() => resourcesArray.append("")}
+                        onClick={() => resourcesArray.append({ resource: "" })} // Updated to append an object
                     >
                         Add Resources
                     </Button>
