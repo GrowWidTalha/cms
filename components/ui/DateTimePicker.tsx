@@ -312,12 +312,15 @@ function Calendar({
                 ...classNames,
             }}
             components={{
+                // @ts-ignore
                 Chevron: ({ ...props }) =>
                     props.orientation === "left" ? (
                         <ChevronLeft className="h-4 w-4" />
                     ) : (
                         <ChevronRight className="h-4 w-4" />
                     ),
+                // @ts-ignore
+
                 MonthCaption: ({ calendarMonth }) => {
                     return (
                         <div className="inline-flex gap-2">
