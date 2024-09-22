@@ -9,7 +9,6 @@ import {
     TableCell,
 } from "@/components/ui/table";
 import { ChevronUpIcon, ChevronDownIcon } from "@radix-ui/react-icons";
-import { ColumnDef } from "@tanstack/react-table";
 
 interface Column {
     key: string;
