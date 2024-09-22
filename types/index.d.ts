@@ -1,8 +1,8 @@
 export interface CreateAssignmentProps {
     title: string;
     description: string;
-    resources: string[];
-    milestones: string[];
+    resources: string;
+    milestones: string;
     startDate: Date;
     endDate: Date;
     isEvaluated: boolean;
@@ -21,7 +21,7 @@ export interface CreateTeacherProps {
 export interface CreateClassAssignmentProps {
     title: string;
     description: string;
-    resources: string[];
+    resources: string;
     teacher: string;
     classSlot: string;
     isPublished: boolean;
@@ -30,8 +30,22 @@ export interface CreateClassAssignmentProps {
 export interface UpdateClassAssignmentProps {
     title: string;
     description: string;
-    resources: string[];
+    resources: string;
     teacher: string;
     classSlot: string;
     isPublished: boolean;
+}
+
+
+export interface SubmitClassAssignmentProps {
+    student: string;
+    assignment: string;
+    githubURL: string;
+    linkedinURL?: string;
+    liveURL: string;
+}
+export interface SubmitHackathonOrAssignmentProps {
+    student: string;
+    assignment: string;
+    responses: string;
 }

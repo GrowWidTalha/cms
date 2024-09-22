@@ -12,6 +12,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Models } from "appwrite";
+import { Button } from "../ui/button";
 
 // Define types based on the provided data structure
 type Student = {
@@ -46,8 +47,8 @@ const assignmentColumns = [
         key: "title",
         label: "Assignment",
         render: (submission: SubmissionData) => (
-            <Link href={`/admin/assignments/${submission.assignment.$id}`}>
-                {submission.assignment.title}
+            <Link href={`/assignment/${submission.assignment.$id}`}>
+                <Button variant="link">{submission.assignment.title}</Button>
             </Link>
         ),
     },
@@ -72,11 +73,6 @@ const assignmentColumns = [
                 {submission.assignment.type}
             </Badge>
         ),
-    },
-    {
-        key: "grade",
-        label: "Grade",
-        render: () => <span>Not graded</span>, // Assuming grade is not provided in the current data structure
     },
 ];
 

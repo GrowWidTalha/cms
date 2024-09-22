@@ -1,14 +1,15 @@
 "use client";
 
-import * as React from "react";
+import React from "react";
+import SortableTable from "../SortableTable";
+import { ClassAssignmentSubmission } from "@/types/types.appwrite";
 import {
     ColumnDef,
     flexRender,
     getCoreRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import { Edit } from "lucide-react";
-
+import Link from "next/link";
 import {
     Table,
     TableBody,
@@ -16,44 +17,91 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { Teacher } from "@/types/types.appwrite";
-import UpdateTeacherDialog from "../UpdateTeacherDialog";
+} from "../ui/table";
 
-const columns: ColumnDef<Teacher>[] = [
+export const columns: ColumnDef<ClassAssignmentSubmission>[] = [
     {
-        accessorKey: "name",
-        header: "Name",
-    },
-    {
-        accessorKey: "email",
-        header: "Email",
-    },
-    {
-        accessorKey: "slot",
-        header: "Slot",
+        id: "name",
+        header: "Student",
+        accessorFn: (row) => row.Student.name,
         cell: ({ row }) => {
-            return <span>{row.original.slots.time}</span>;
+            const student = row.original.Student;
+            return <span>{student.name}</span>;
         },
     },
     {
-        id: "actions",
+        id: "name",
+        header: "Assignment",
+        accessorFn: (row) => row.Student.name,
         cell: ({ row }) => {
+            const assignment = row.original.Assignments;
             return (
-                <UpdateTeacherDialog teacher={row.original}>
-                    <Button variant="ghost" size="icon">
-                        <Edit className="h-4 w-4" />
-                        <span className="sr-only">Edit</span>
-                    </Button>
-                </UpdateTeacherDialog>
+                <Link
+                    className="underline"
+                    href={`/assignment/${assignment.$id}`}
+                >
+                    {assignment.title}
+                </Link>
             );
         },
     },
+    {
+        id: "githubURL",
+        header: "GitHub URL",
+        accessorKey: "githubURL",
+        cell: ({ row }) => (
+            <Link
+                href={row.original.githubURL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:underline"
+            >
+                {row.original.githubURL}
+            </Link>
+        ),
+    },
+    {
+        id: "liveURL",
+        header: "Live URL",
+        accessorKey: "liveURL",
+        cell: ({ row }) => (
+            <Link
+                href={row.original.liveURL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:underline"
+            >
+                {row.original.liveURL}
+            </Link>
+        ),
+    },
+    {
+        id: "linkedinURL",
+        header: "LinkedIn URL",
+        accessorKey: "linkedinURL",
+        cell: ({ row }) =>
+            row.original.linkedinURL ? (
+                <Link
+                    href={row.original.linkedinURL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline"
+                >
+                    {row.original.linkedinURL}
+                </Link>
+            ) : (
+                <span className="text-gray-400">Not provided</span>
+            ),
+    },
 ];
-// TODO: Add Pagination and DELETE functionality
-
-export default function TeacherTable({ data }: { data: Teacher[] }) {
+interface DataTableProps<TData, TValue> {
+    columns: ColumnDef<TData, TValue>[];
+    data: TData[];
+}
+export function DataTable<TData, TValue>({
+    columns,
+    data,
+}: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
         columns,

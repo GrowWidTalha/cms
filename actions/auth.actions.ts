@@ -1,8 +1,9 @@
 'use server'
-
+import { cache } from '../lib/cache';
 import { DATABASE_ID, databases, TEACHER_COLL_ID, USER_COLLECTION_ID } from '@/lib/appwrite'
 import { ID, Query } from 'appwrite'
 import bcrypt from 'bcryptjs'
+import { parseStringify } from "@/lib/utils";
 
 export async function authenticateUser(email: string, password: string, rollNumber: string, classTiming: string) {
   try {
@@ -17,22 +18,19 @@ export async function authenticateUser(email: string, password: string, rollNumb
     }
 
     const user = users.documents[0]
-    const passwordMatch = password === user.password
+    const passwordMatch = bcrypt.compare(password, user.password)
 
     if (!passwordMatch) {
-      return null
-    }
-
-    if (user.rollNumber !== rollNumber || user.classTiming !== classTiming) {
+        console.log("Password does not match")
       return null
     }
 
     return {
-        name: user.name,
+      name: user.name,
       id: user.$id,
       email: user.email,
       rollNumber: user.rollNumber,
-      slot: user.slotes.$id,
+      slot: user.slot,
       role: 'student',
     }
   } catch (error) {
@@ -41,7 +39,7 @@ export async function authenticateUser(email: string, password: string, rollNumb
   }
 }
 
-export async function createUser(email: string, password: string, rollNumber: string, classTiming: string) {
+export async function createUser(name: string, email: string, password: string, rollNumber: string, classTiming: string) {
   try {
     const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -50,10 +48,11 @@ export async function createUser(email: string, password: string, rollNumber: st
       USER_COLLECTION_ID!,
       ID.unique(),
       {
+        name,
         email,
         password: hashedPassword,
         rollNumber,
-        classTiming,
+        slot: classTiming,
       }
     )
 
@@ -61,7 +60,8 @@ export async function createUser(email: string, password: string, rollNumber: st
       id: user.$id,
       email: user.email,
       rollNumber: user.rollNumber,
-      classTiming: user.classTiming,
+      slot: user.slot,
+      name: user.name,
     }
   } catch (error) {
     console.error('Error creating user:', error)
@@ -76,7 +76,6 @@ export async function authenticateTeacher(email: string, password: string) {
       "66ebbc31000c53f498cd",
       [Query.equal('email', email)]
     )
-    console.log(teachers)
 
     if (teachers.documents.length === 0) {
       return null
@@ -100,3 +99,67 @@ export async function authenticateTeacher(email: string, password: string) {
     return null
   }
 }
+
+
+export async function getUserByEmail(email: string) {
+  try {
+    const user = await databases.listDocuments(DATABASE_ID!, USER_COLLECTION_ID!, [Query.equal('email', email)]);
+    return parseStringify(user.documents[0]);
+  } catch (error) {
+    console.error('Error getting user by email:', error)
+    return null
+  }
+}
+interface Student {
+    Student_Registration_Number: string;
+    Quarter_1_Exam_Result: string;
+  }
+
+  interface JsonData {
+    [sheetName: string]: Student[];
+  }
+
+  async function fetchJsonFile(): Promise<JsonData> {
+    const cacheKey = 'studentDataJsonFile';
+    const cachedResponse = cache.get<JsonData>(cacheKey);
+
+    if (cachedResponse) {
+      return cachedResponse;
+    }
+
+    try {
+      const response = await fetch("https://gist.githubusercontent.com/GrowWidTalha/06a4af8613d3decb2db1fbcb0c203482/raw/3e673788ceffe17f71700945d4294745cca95090/students.json");
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const jsonData: JsonData = await response.json();
+      cache.set(cacheKey, jsonData);
+      return jsonData;
+    } catch (error) {
+      console.error('Error fetching student data:', error);
+      return {};
+    }
+  }
+
+  export async function checkRollNumberInJsonFile(rollNumber: string): Promise<boolean> {
+    try {
+      const jsonData = await fetchJsonFile();
+
+      for (const sheetName in jsonData) {
+        const students = jsonData[sheetName];
+        const studentExists = students.some(student => {
+          return student.Student_Registration_Number === rollNumber; // Added return statement
+        });
+        if (studentExists) {
+          return true;
+        }
+      }
+
+      return false;
+    } catch (error) {
+      console.error('Error checking roll number:', error);
+      return false;
+    }
+  }

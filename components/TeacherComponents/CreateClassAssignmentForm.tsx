@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,7 +18,6 @@ import {
     FormMessage,
 } from "../ui/form";
 import dynamic from "next/dynamic";
-
 import { Trash2 } from "lucide-react";
 import { Switch } from "../ui/switch";
 import SubmitButton from "../shared/SubmitButton";
@@ -29,15 +29,23 @@ import {
 } from "@/actions/teacher.actions";
 import Loader from "@/app/loading";
 import { getSession } from "next-auth/react";
+
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), {
     ssr: false,
     loading: () => <Loader />,
 });
 
 const CreateAssignmentSchema = z.object({
-    title: z.string().min(1),
-    description: z.string().min(1),
-    resources: z.array(z.string()).min(1),
+    title: z.string().min(1, "Title is required"),
+    description: z.string().min(1, "Description is required"),
+    resources: z
+        .array(
+            z.object({
+                name: z.string().min(1, "Resource name is required"),
+                url: z.string().url("Invalid URL"),
+            })
+        )
+        .min(1, "At least one resource is required"),
     isPublished: z.boolean(),
 });
 
@@ -54,17 +62,13 @@ const CreateClassAssignmentForm = ({
         defaultValues: {
             title: initialData?.title || "",
             description: initialData?.description || "",
-            resources: initialData?.resources || [],
+            resources: initialData?.resources || [{ name: "", url: "" }],
             isPublished: initialData?.isPublished || false,
         },
     });
 
-    // Specify the type for resourcesArray
-    const resourcesArray = useFieldArray<
-        z.infer<typeof CreateAssignmentSchema>
-    >({
+    const { fields, append, remove } = useFieldArray({
         control: form.control,
-        // @ts-ignore
         name: "resources",
     });
 
@@ -73,32 +77,25 @@ const CreateClassAssignmentForm = ({
         if (!session) return null;
         setIsLoading(true);
         try {
+            const assignmentData = {
+                title: values.title,
+                description: values.description,
+                resources: JSON.stringify(values.resources),
+                isPublished: values.isPublished,
+                teacher: session.user.id,
+                classSlot: session.user.slots.$id,
+            };
+
             if (formType === "create") {
-                const assignnment = {
-                    title: values.title,
-                    description: values.description,
-                    resources: values.resources,
-                    isPublished: values.isPublished,
-                    teacher: session.user.id,
-                    classSlot: session.user.slots.$id,
-                };
-                const assignment = await createClassAssignment(assignnment);
+                const assignment = await createClassAssignment(assignmentData);
                 if (assignment) {
                     toast.success("Class Assignment created successfully");
                     form.reset();
                 }
             } else {
-                const assignment = {
-                    title: values.title,
-                    description: values.description,
-                    resources: values.resources,
-                    isPublished: values.isPublished,
-                    teacher: session.user.id,
-                    classSlot: session.user.slots.$id,
-                };
                 const document = await updateClassAssignment(
                     initialData?.$id as string,
-                    assignment
+                    assignmentData
                 );
                 if (document) {
                     toast.success("Assignment updated successfully");
@@ -112,6 +109,7 @@ const CreateClassAssignmentForm = ({
             setIsLoading(false);
         }
     };
+
     return (
         <Form {...form}>
             <form
@@ -152,46 +150,60 @@ const CreateClassAssignmentForm = ({
                 />
                 <div>
                     <Label>Resources</Label>
-                    {resourcesArray.fields.map((field, index) => (
-                        <FormField
-                            control={form.control}
-                            key={field.id}
-                            name={`resources.${index}`}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <div className="flex items-center space-x-2 mt-2">
+                    {fields.map((field, index) => (
+                        <div key={field.id} className="space-y-2 mt-2">
+                            <FormField
+                                control={form.control}
+                                name={`resources.${index}.name`}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
                                             <Input
                                                 {...field}
                                                 placeholder={`Resource ${
                                                     index + 1
-                                                }`}
+                                                } Name`}
                                             />
-                                            <Button
-                                                type="button"
-                                                variant="outline"
-                                                size="icon"
-                                                onClick={() =>
-                                                    resourcesArray.remove(index)
-                                                }
-                                            >
-                                                <Trash2 className="h-4 w-4" />
-                                            </Button>
-                                        </div>
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name={`resources.${index}.url`}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                placeholder={`Resource ${
+                                                    index + 1
+                                                } URL`}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="icon"
+                                onClick={() => remove(index)}
+                            >
+                                <Trash2 className="h-4 w-4" />
+                            </Button>
+                        </div>
                     ))}
                     <Button
                         type="button"
                         variant="outline"
                         size="sm"
                         className="mt-2"
-                        // @ts-ignore
-                        onClick={() => resourcesArray.append("")} // Append an empty string instead
+                        onClick={() => append({ name: "", url: "" })}
                     >
-                        Add Resources
+                        Add Resource
                     </Button>
                 </div>
                 <FormField

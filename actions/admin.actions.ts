@@ -35,9 +35,9 @@ export const createAssignment = async (assignment: CreateAssignmentProps) => {
 };
 
 
-export const getAllAssignments = async () => {
+export const getAllAssignments = async (onlyPublished?: boolean) => {
     try {
-        const assignments = await databases.listDocuments(DATABASE_ID!, ADMIN_ASSIGN_COLL_ID!);
+        const assignments = await databases.listDocuments(DATABASE_ID!, ADMIN_ASSIGN_COLL_ID!, onlyPublished ? [Query.equal("isPublished", true)] : []);
         return assignments.documents as AdminAssignment[];
     } catch (error) {
         console.log("Error Getting Assignments: ", error);
@@ -87,7 +87,7 @@ export const getAllStudents = async (slot?: string) => {
         students: students.documents
        }
    } catch (error) {
-       console.log('', error)
+       console.log('Error Getting all student by slot: ', error)
    }
 }
 

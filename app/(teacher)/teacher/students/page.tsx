@@ -10,7 +10,6 @@ export default async function StudentDataPage() {
     const session = await auth();
     if (!session) return;
     const result = await getAllStudents(session.user.slots.$id);
-    console.log(result);
     if (!result) {
         return <div>No students found</div>;
     }

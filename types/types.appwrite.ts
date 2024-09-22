@@ -6,7 +6,7 @@ export interface ClassAssigments extends Models.Document {
     classSlot: ClassSlot;
     teacher: Teacher
     isPublished: boolean;
-    resources: string[];
+    resources: string;
 }
 
 export interface ClassSlot extends Models.Document {
@@ -37,8 +37,8 @@ export interface AdminAssignment extends Models.Document {
     type: "assignment" | "hackathon";
     startDate: string;
     endDate: string;
-    milestones: string[];
-    resources: string[];
+    milestones: string;
+    resources:string;
     isEvaluated: boolean;
     isPublished: boolean;
 }
@@ -47,7 +47,7 @@ export interface AdminAssignment extends Models.Document {
 export interface AdminAssignmentSubmission extends Models.Document {
     student: Student;
     assignment: AdminAssignment;
-    answers: string[];
+    answers: string;
 }
 
 export interface Teacher extends Models.Document {

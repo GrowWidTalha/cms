@@ -56,7 +56,6 @@ export default function TeacherProfile({
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
         setisLoading(true);
         try {
             const data = {
@@ -154,7 +153,6 @@ export default function TeacherProfile({
                             <Button
                                 type="button"
                                 onClick={() => {
-                                    console.log("clicked");
                                     setIsEditing(true);
                                 }}
                             >

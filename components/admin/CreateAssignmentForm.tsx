@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -24,6 +25,7 @@ import SubmitButton from "../shared/SubmitButton";
 import { createAssignment, updateAssignment } from "@/actions/admin.actions";
 import { toast } from "sonner";
 import { AdminAssignment } from "@/types/types.appwrite";
+
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
 const CreateAssignmentSchema = z.object({
@@ -32,8 +34,24 @@ const CreateAssignmentSchema = z.object({
     startDate: z.date(),
     endDate: z.date(),
     type: z.enum(["assignment", "hackathon"]),
-    milestones: z.array(z.string()).min(1),
-    resources: z.array(z.string()).min(1),
+    milestones: z
+        .array(
+            z.object({
+                name: z.string().min(1, "Milestone name is required"),
+                description: z
+                    .string()
+                    .min(1, "Milestone description is required"),
+            })
+        )
+        .min(1, "At least one milestone is required"),
+    resources: z
+        .array(
+            z.object({
+                url: z.string().url("Invalid URL"),
+                name: z.string().min(1, "Resource name is required"),
+            })
+        )
+        .min(1, "At least one resource is required"),
     isEvaluated: z.boolean(),
     isPublished: z.boolean(),
 });
@@ -60,58 +78,56 @@ const CreateAssignmentForm = ({
                 ? new Date(initialData.endDate)
                 : new Date(),
             type: initialData?.type || "assignment",
-            milestones: initialData?.milestones || [],
-            resources: initialData?.resources || [],
+            milestones: JSON.parse(initialData?.milestones || "[]"),
+            resources: JSON.parse(initialData?.resources || "[]"),
             isEvaluated: initialData?.isEvaluated || false,
             isPublished: initialData?.isPublished || false,
         },
     });
-    const { fields, append, remove } = useFieldArray({
+
+    const {
+        fields: milestoneFields,
+        append: appendMilestone,
+        remove: removeMilestone,
+    } = useFieldArray({
         control: form.control,
-        // @ts-ignore
         name: "milestones",
     });
-    const resourcesArray = useFieldArray({
+
+    const {
+        fields: resourceFields,
+        append: appendResource,
+        remove: removeResource,
+    } = useFieldArray({
         control: form.control,
-        // @ts-ignore
         name: "resources",
     });
 
     const onSubmit = async (values: z.infer<typeof CreateAssignmentSchema>) => {
         setIsLoading(true);
         try {
+            const assignmentData = {
+                title: values.title,
+                description: values.description,
+                startDate: values.startDate,
+                endDate: values.endDate,
+                type: formFor,
+                milestones: JSON.stringify(values.milestones),
+                resources: JSON.stringify(values.resources),
+                isEvaluated: values.isEvaluated,
+                isPublished: values.isPublished,
+            };
+
             if (formType === "create") {
-                const assignnment = {
-                    title: values.title,
-                    description: values.description,
-                    startDate: values.startDate,
-                    endDate: values.endDate,
-                    type: formFor,
-                    milestones: values.milestones,
-                    resources: values.resources,
-                    isEvaluated: values.isEvaluated,
-                    isPublished: values.isPublished,
-                };
-                const assignment = await createAssignment(assignnment);
+                const assignment = await createAssignment(assignmentData);
                 if (assignment) {
                     toast.success("Assignment created successfully");
                     form.reset();
                 }
             } else {
-                const assignment = {
-                    title: values.title,
-                    description: values.description,
-                    startDate: values.startDate,
-                    endDate: values.endDate,
-                    type: formFor,
-                    milestones: values.milestones,
-                    resources: values.resources,
-                    isEvaluated: values.isEvaluated,
-                    isPublished: values.isPublished,
-                };
                 const document = await updateAssignment(
                     initialData?.$id as string,
-                    assignment
+                    assignmentData
                 );
                 if (document) {
                     toast.success("Assignment updated successfully");
@@ -125,11 +141,12 @@ const CreateAssignmentForm = ({
             setIsLoading(false);
         }
     };
+
     return (
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-4 w-full "
+                className="space-y-4 w-full"
             >
                 <FormField
                     name="title"
@@ -181,7 +198,7 @@ const CreateAssignmentForm = ({
                     control={form.control}
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Start Date</FormLabel>
+                            <FormLabel>End Date</FormLabel>
                             <FormControl>
                                 <DateTimePicker {...field} hourCycle={12} />
                             </FormControl>
@@ -191,88 +208,120 @@ const CreateAssignmentForm = ({
                 />
                 <div>
                     <Label>Milestones</Label>
-                    {fields.map((field, index) => (
-                        <FormField
-                            control={form.control}
-                            key={field.id}
-                            name={`milestones.${index}`}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <div className="flex items-center space-x-2 mt-2">
+                    {milestoneFields.map((field, index) => (
+                        <div key={field.id} className="space-y-2 mt-2">
+                            <FormField
+                                control={form.control}
+                                name={`milestones.${index}.name`}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
                                             <Input
                                                 {...field}
                                                 placeholder={`Milestone ${
                                                     index + 1
-                                                }`}
+                                                } Name`}
                                             />
-                                            <Button
-                                                type="button"
-                                                variant="outline"
-                                                size="icon"
-                                                onClick={() => remove(index)}
-                                            >
-                                                <Trash2 className="h-4 w-4" />
-                                            </Button>
-                                        </div>
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name={`milestones.${index}.description`}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                placeholder={`Milestone ${
+                                                    index + 1
+                                                } Description`}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="icon"
+                                onClick={() => removeMilestone(index)}
+                            >
+                                <Trash2 className="h-4 w-4" />
+                            </Button>
+                        </div>
                     ))}
                     <Button
                         type="button"
                         variant="outline"
                         size="sm"
                         className="mt-2"
-                        // @ts-ignore
-                        onClick={() => append("")}
+                        onClick={() =>
+                            appendMilestone({ name: "", description: "" })
+                        }
                     >
-                        Add Milestones
+                        Add Milestone
                     </Button>
                 </div>
                 <div>
                     <Label>Resources</Label>
-                    {resourcesArray.fields.map((field, index) => (
-                        <FormField
-                            control={form.control}
-                            key={field.id}
-                            name={`resources.${index}`}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <div className="flex items-center space-x-2 mt-2">
+                    {resourceFields.map((field, index) => (
+                        <div key={field.id} className="space-y-2 mt-2">
+                            <FormField
+                                control={form.control}
+                                name={`resources.${index}.name`}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
                                             <Input
                                                 {...field}
                                                 placeholder={`Resource ${
                                                     index + 1
-                                                }`}
+                                                } Name`}
                                             />
-                                            <Button
-                                                type="button"
-                                                variant="outline"
-                                                size="icon"
-                                                onClick={() =>
-                                                    resourcesArray.remove(index)
-                                                }
-                                            >
-                                                <Trash2 className="h-4 w-4" />
-                                            </Button>
-                                        </div>
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name={`resources.${index}.url`}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                placeholder={`Resource ${
+                                                    index + 1
+                                                } URL`}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="icon"
+                                onClick={() => removeResource(index)}
+                            >
+                                <Trash2 className="h-4 w-4" />
+                            </Button>
+                        </div>
                     ))}
                     <Button
                         type="button"
                         variant="outline"
                         size="sm"
                         className="mt-2"
-                        // @ts-ignore
-                        onClick={() => resourcesArray.append("")}
+                        onClick={() => appendResource({ name: "", url: "" })}
                     >
-                        Add Resources
+                        Add Resource
                     </Button>
                 </div>
                 <FormField

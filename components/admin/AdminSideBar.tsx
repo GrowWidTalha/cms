@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import AdminLogout from "./AdminLogout";
 
 const AdminSideBar = () => {
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
@@ -107,10 +108,7 @@ const AdminSideBar = () => {
                         Teachers
                     </span>
                 </Link>
-                <Button
-                    className="flex w-full justify-start items-center gap-2 rounded-md px-3 py-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                    variant={"ghost"}
-                >
+                <AdminLogout>
                     <LogOutIcon className={`h-5 w-5 `} />
                     <span
                         className={`transition-opacity duration-300 ${
@@ -119,7 +117,7 @@ const AdminSideBar = () => {
                     >
                         Logout
                     </span>
-                </Button>
+                </AdminLogout>
             </nav>
             <div className="mt-auto flex items-center justify-center p-4">
                 <Button

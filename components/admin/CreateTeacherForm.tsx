@@ -86,7 +86,6 @@ export default function CreateTeacherForm({
             if (formType === "create") {
                 const response = await createTeacher(data);
                 if (response) {
-                    console.log(response);
                     setOpen(false);
                     toast.success("Teacher created successfully.");
                     form.reset();
@@ -102,7 +101,6 @@ export default function CreateTeacherForm({
                     slot: data.slot,
                 });
                 if (response) {
-                    console.log(response);
                     setOpen(false);
                     toast.success("Teacher updated successfully.");
                     form.reset();

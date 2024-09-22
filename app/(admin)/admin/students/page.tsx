@@ -7,7 +7,6 @@ import { Student } from "@/types/types.appwrite";
 
 export default async function StudentDataPage() {
     const result = await getAllStudents();
-    console.log(result);
     if (!result) {
         return <div>No students found</div>;
     }

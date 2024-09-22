@@ -14,6 +14,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+// TODO: Add a custom error component for the teacher login page
 
 export default function TeacherLoginPage() {
     const router = useRouter();

@@ -50,7 +50,9 @@ export default function ClassAssignmentCard({
                             </Link>
                         </Button>
                         <Button asChild variant="ghost" size="sm">
-                            <Link href={`/teacher/${assignment.$id}`}>
+                            <Link
+                                href={`/teacher/assignments/${assignment.$id}`}
+                            >
                                 <EyeIcon className="w-4 h-4" />
                                 View
                             </Link>

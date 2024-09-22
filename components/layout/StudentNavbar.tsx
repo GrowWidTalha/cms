@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { MenuIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { signOut } from "@/auth";
+import SignOutBtn from "../AuthComponents/SignOutBtn";
 
 export default function StudentNavbar() {
     return (
@@ -12,31 +14,34 @@ export default function StudentNavbar() {
                     <ul className="hidden md:flex space-x-4">
                         <li>
                             <Button variant="ghost" asChild>
-                                <Link href="#" prefetch={false}>
+                                <Link href="/profile" prefetch={false}>
                                     My Profile
                                 </Link>
                             </Button>
                         </li>
                         <li>
                             <Button variant="ghost" asChild>
-                                <Link href="#" prefetch={false}>
+                                <Link href="/leaderboard" prefetch={false}>
                                     Leader Board
                                 </Link>
                             </Button>
                         </li>
                         <li>
                             <Button variant="ghost" asChild>
-                                <Link href="#" prefetch={false}>
+                                <Link href="/assignments" prefetch={false}>
                                     Assignments
                                 </Link>
                             </Button>
                         </li>
                         <li>
                             <Button variant="ghost" asChild>
-                                <Link href="#" prefetch={false}>
+                                <Link href="/resources" prefetch={false}>
                                     Resources
                                 </Link>
                             </Button>
+                        </li>
+                        <li>
+                            <SignOutBtn />
                         </li>
                     </ul>
                     <Sheet>

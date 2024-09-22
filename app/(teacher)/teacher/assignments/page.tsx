@@ -7,7 +7,6 @@ import Link from "next/link";
 
 export default async function TeacherAssignmentsPage() {
     const session = await auth();
-    console.log(session);
     if (!session?.user?.slots?.$id) {
         return <div className="ml-32">No slot found</div>;
     }

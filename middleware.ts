@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import { auth } from "@/auth";
+
 const DEFAULT_LOGIN_REDIRECT = "/"
 export const apiAuthPrefix = "/api/auth";
 export const authRoutes = [
@@ -10,23 +11,30 @@ export const authRoutes = [
     "/auth/new-password",
     "/teacher/login",
     "/login"
-  ];
-  export const publicRoutes = [
-    "/",
-    "/auth/new-verification"
-  ];
+];
+export const publicRoutes = [
+    "/auth/new-verification",
+    "/admin"
+];
 
-//   @ts-ignore
+// @ts-ignore
 export default auth((req) => {
   const { nextUrl } = req;
+
   const isLoggedIn = !!req.auth;
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isAdminRoute = nextUrl.pathname.startsWith("/admin");
   const isTeacherRoute = nextUrl.pathname.startsWith("/teacher");
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
   // Allow API authentication routes
   if (isApiAuthRoute) {
+    return null;
+  }
+
+  // Allow access to admin routes and their children
+  if (isAdminRoute) {
     return null;
   }
 
@@ -45,13 +53,13 @@ export default auth((req) => {
       callbackUrl += nextUrl.search;
     }
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
-    if(isTeacherRoute){
-        return Response.redirect(new URL(
-          `/teacher/login?callbackUrl=${encodedCallbackUrl}`,
-          nextUrl
-        ));
+    if (isTeacherRoute) {
+      return Response.redirect(new URL(
+        `/teacher/login?callbackUrl=${encodedCallbackUrl}`,
+        nextUrl
+      ));
     } else {
-        return Response.redirect(new URL(`/login?callbackUrl=${encodedCallbackUrl}`))
+      return Response.redirect(new URL(`/login?callbackUrl=${encodedCallbackUrl ?? "/"}`, nextUrl));
     }
   }
 

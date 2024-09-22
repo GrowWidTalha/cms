@@ -9,6 +9,7 @@ import {
     TableCell,
 } from "@/components/ui/table";
 import { ChevronUpIcon, ChevronDownIcon } from "@radix-ui/react-icons";
+import { ColumnDef } from "@tanstack/react-table";
 
 interface Column {
     key: string;
@@ -18,7 +19,7 @@ interface Column {
 
 interface SortableTableProps {
     data: Record<string, any>[]; // Updated type for data
-    columns: Column[];
+    columns: Column[] | ColumnDef<any>[];
     initialSortColumn: string;
 }
 
@@ -29,7 +30,6 @@ const SortableTable: React.FC<SortableTableProps> = ({
 }) => {
     const [sortColumn, setSortColumn] = useState(initialSortColumn);
     const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-    console.log(data);
     const handleSort = (column: string) => {
         if (column === sortColumn) {
             setSortDirection(sortDirection === "asc" ? "desc" : "asc");

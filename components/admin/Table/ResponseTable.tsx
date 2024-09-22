@@ -33,45 +33,47 @@ export interface AdminAssignment extends Models.Document {
     type: "assignment" | "hackathon";
     startDate: string;
     endDate: string;
-    milestones: string[];
-    resources: string[];
+    milestones: string;
+    resources: string;
     isEvaluated: boolean;
     isPublished: boolean;
 }
 
 const createMilestoneColumns = (
-    milestones: string[]
+    milestones: string
 ): ColumnDef<AdminAssignmentSubmission>[] => {
-    return milestones.map((milestone, index) => ({
-        accessorKey: `milestone${index}`,
-        header: milestone,
-        cell: ({ row }) => {
-            const answers = row.original.answers[index]?.split("-") || [];
-            const githubLink = answers[0] || "#";
-            const deployedLink = answers[1] || "#";
-
-            return (
-                <div className="flex space-x-2">
-                    <Link
-                        href={githubLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary hover:text-primary/80"
-                    >
-                        <Github size={20} />
-                    </Link>
-                    <Link
-                        href={deployedLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary hover:text-primary/80"
-                    >
-                        <Globe size={20} />
-                    </Link>
-                </div>
-            );
-        },
-    }));
+    return JSON.parse(milestones).map(
+        (milestone: { name: string; description: string }, index: number) => ({
+            accessorKey: milestone.name,
+            header: milestone.name,
+            cell: ({ row }) => {
+                const responses = JSON.parse(row.original.responses || "[]");
+                const response = responses[index] || {};
+                const githubLink = response.githubURL || "#";
+                const deployedLink = response.liveURL || "#";
+                return (
+                    <div className="flex space-x-2">
+                        <Link
+                            href={githubLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary hover:text-primary/80"
+                        >
+                            <Github size={20} />
+                        </Link>
+                        <Link
+                            href={deployedLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary hover:text-primary/80"
+                        >
+                            <Globe size={20} />
+                        </Link>
+                    </div>
+                );
+            },
+        })
+    );
 };
 
 const baseColumns: ColumnDef<AdminAssignmentSubmission>[] = [
@@ -135,7 +137,7 @@ export default function StudentDataTable({
 
     const columns = React.useMemo(() => {
         const milestoneColumns = createMilestoneColumns(assignment.milestones);
-        return [...baseColumns, ...milestoneColumns, actionsColumn];
+        return [...baseColumns, ...milestoneColumns];
     }, [assignment.milestones]);
 
     const table = useReactTable({

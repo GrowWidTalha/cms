@@ -62,9 +62,9 @@ export const getClassAssignmentById = async (assignmentId: string) => {
 export const getAllClassAssignments = async (slot: string) => {
    try {
        const assignments = await databases.listDocuments(DATABASE_ID!, CLASS_ASSIGN_COLL_ID!, [Query.equal("slot", slot)])
-       return assignments.documents as ClassAssigments[]
+       return parseStringify(assignments.documents)
    } catch (error) {
-       console.log('', error)
+       console.log('Error getting all class assignments: ', error)
    }
 }
 
@@ -76,7 +76,6 @@ export const getClassAssignmentResponses = async (assignmentId: string) => {
         CLASS_ASSIGN_SUB_COLL_ID!,
         [Query.equal("Assignments", assignmentId)]
        )
-       console.log(document.documents)
        return document.documents
    } catch (error) {
        console.log('Error getting class assignment responses: ', error)
@@ -89,6 +88,6 @@ export const getTeacherById = async (teacherId: string) => {
     const teacher = await databases.getDocument(DATABASE_ID!, TEACHER_COLL_ID!, teacherId)
     return parseStringify(teacher)
    } catch (error) {
-       console.log('', error)
+       console.log('Error getting teacher by id: ', error)
    }
 }
