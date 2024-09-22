@@ -62,7 +62,9 @@ const CreateClassAssignmentForm = ({
         defaultValues: {
             title: initialData?.title || "",
             description: initialData?.description || "",
-            resources: initialData?.resources || [{ name: "", url: "" }],
+            resources: initialData?.resources
+                ? JSON.parse(initialData.resources)
+                : [{ name: "", url: "" }],
             isPublished: initialData?.isPublished || false,
         },
     });
