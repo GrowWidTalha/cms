@@ -6,7 +6,7 @@ const AssignmentInfoCard = ({
     classAssignment,
 }: {
     submitted: number;
-    classAssignment: number;
+    classAssignment?: number;
 }) => (
     <Card>
         <CardHeader className="flex items-center justify-between">
@@ -19,10 +19,12 @@ const AssignmentInfoCard = ({
                 </div>
                 <div className="text-2xl font-bold">{submitted}</div>
             </div>
-            <div className="grid gap-1">
-                <div className="text-sm font-medium">Class Assignment</div>
-                <div className="text-2xl font-bold">{classAssignment}</div>
-            </div>
+            {classAssignment && (
+                <div className="grid gap-1">
+                    <div className="text-sm font-medium">Class Assignment</div>
+                    <div className="text-2xl font-bold">{classAssignment}</div>
+                </div>
+            )}
         </CardContent>
     </Card>
 );
