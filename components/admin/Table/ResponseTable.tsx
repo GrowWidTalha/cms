@@ -46,7 +46,7 @@ const createMilestoneColumns = (
         (milestone: { name: string; description: string }, index: number) => ({
             accessorKey: milestone.name,
             header: milestone.name,
-            cell: ({ row }) => {
+            cell: ({ row }: { row: any }) => {
                 const responses = JSON.parse(row.original.responses || "[]");
                 const response = responses[index] || {};
                 const githubLink = response.githubURL || "#";
