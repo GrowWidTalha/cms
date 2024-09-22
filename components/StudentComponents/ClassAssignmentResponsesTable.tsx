@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import SortableTable from "../SortableTable";
 import { ClassAssignmentSubmission } from "@/types/types.appwrite";
 import {
     ColumnDef,

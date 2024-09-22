@@ -13,7 +13,6 @@ import {
     CardTitle,
     CardDescription,
     CardContent,
-    CardFooter,
 } from "@/components/ui/card";
 import {
     Form,
@@ -33,7 +32,7 @@ import {
     ClassAssigments,
     ClassAssignmentSubmission,
 } from "@/types/types.appwrite";
-import { Calendar, Clock, FileText, Link as LinkIcon } from "lucide-react";
+import { Calendar, Clock, Link as LinkIcon } from "lucide-react";
 import { z } from "zod";
 import { Session } from "@auth/core/types";
 import {
@@ -82,7 +81,7 @@ const AssignmentDetails: React.FC<AssignmentDetailsProps> = ({
     const [isLoading, setIsLoading] = useState(false);
     const isHackathon = type === "hackathon";
     const isClassAssignment = type === "classAssignment";
-    const isAdminAssignment = type === "assignment";
+    // const isAdminAssignment = type === "assignment";
 
     const startDate = isClassAssignment ? null : parseISO(assignment.startDate);
     const endDate = isClassAssignment ? null : parseISO(assignment.endDate);
@@ -280,7 +279,7 @@ const AssignmentDetails: React.FC<AssignmentDetailsProps> = ({
                                             </FormControl>
                                             <FormDescription>
                                                 The live URL for this
-                                                milestone's deployment.
+                                                milestone&apos;s deployment.
                                             </FormDescription>
                                             <FormMessage />
                                         </FormItem>

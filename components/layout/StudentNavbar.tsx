@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { MenuIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { signOut } from "@/auth";
 import SignOutBtn from "../AuthComponents/SignOutBtn";
 
 export default function StudentNavbar() {
@@ -57,28 +56,29 @@ export default function StudentNavbar() {
                                 </span>
                             </Button>
                         </SheetTrigger>
-                        <SheetContent side="right">
+                        <SheetContent side="right" className="bg-white">
                             <div className="grid gap-4 py-4">
                                 <Button variant="ghost" asChild>
-                                    <Link href="#" prefetch={false}>
+                                    <Link href="/profile" prefetch={false}>
                                         My Profile
                                     </Link>
                                 </Button>
                                 <Button variant="ghost" asChild>
-                                    <Link href="#" prefetch={false}>
+                                    <Link href="/leaderboard" prefetch={false}>
                                         Leader Board
                                     </Link>
                                 </Button>
                                 <Button variant="ghost" asChild>
-                                    <Link href="#" prefetch={false}>
+                                    <Link href="/assignments" prefetch={false}>
                                         Assignments
                                     </Link>
                                 </Button>
                                 <Button variant="ghost" asChild>
-                                    <Link href="#" prefetch={false}>
+                                    <Link href="/resources" prefetch={false}>
                                         Resources
                                     </Link>
                                 </Button>
+                                <SignOutBtn />
                             </div>
                         </SheetContent>
                     </Sheet>

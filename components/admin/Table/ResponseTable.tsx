@@ -111,21 +111,21 @@ interface StudentDataTableProps {
     data: AdminAssignmentSubmission[];
     assignment: AdminAssignment;
 }
-const actionsColumn: ColumnDef<AdminAssignmentSubmission> = {
-    id: "actions",
-    header: "Actions",
-    cell: () => {
-        return (
-            <Link
-                href="#"
-                className="text-primary hover:text-primary/80"
-                prefetch={false}
-            >
-                View
-            </Link>
-        );
-    },
-};
+// const actionsColumn: ColumnDef<AdminAssignmentSubmission> = {
+//     id: "actions",
+//     header: "Actions",
+//     cell: () => {
+//         return (
+//             <Link
+//                 href="#"
+//                 className="text-primary hover:text-primary/80"
+//                 prefetch={false}
+//             >
+//                 View
+//             </Link>
+//         );
+//     },
+// };
 export default function StudentDataTable({
     data,
     assignment,
