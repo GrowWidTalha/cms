@@ -19,7 +19,7 @@ interface Column {
 
 interface SortableTableProps {
     data: Record<string, any>[]; // Updated type for data
-    columns: Column[] | ColumnDef<any>[];
+    columns: Column[];
     initialSortColumn: string;
 }
 
