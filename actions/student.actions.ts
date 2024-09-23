@@ -54,7 +54,7 @@ export const getLatestAdminAssignment = async () => {
             ADMIN_ASSIGN_COLL_ID!,
             [Query.equal("isPublished", true), Query.orderAsc("$createdAt")]
         );
-        return assignments.documents[0];
+        return assignments.documents;
     } catch (error) {
         console.log("Error Getting Latest Admin Assignment: ", error);
     }

@@ -16,11 +16,7 @@ const AdminNavbar = () => {
     return (
         <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b bg-white px-4 sm:px-6">
             <div className="flex items-center gap-4">
-                <Button variant="ghost" size="icon" className="lg:hidden">
-                    <MenuIcon className="h-5 w-5" />
-                    <span className="sr-only">Toggle menu</span>
-                </Button>
-                <h1 className="text-lg font-semibold">CMS</h1>
+                <h1 className="text-lg font-semibold"></h1>
             </div>
             <div className="flex items-center gap-4">
                 <div className="relative">

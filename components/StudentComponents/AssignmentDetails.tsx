@@ -114,7 +114,7 @@ const AssignmentDetails: React.FC<AssignmentDetailsProps> = ({
 
     const daysLeft = isClassAssignment
         ? null
-        : differenceInDays(endDate!, new Date());
+        : differenceInDays(startDate!, new Date());
 
     const onSubmitHackathonOrAssignment = async (
         values: z.infer<typeof hackathonAssignmentSchema>

@@ -13,6 +13,7 @@ export default async function TeacherAssignmentsPage() {
     const data: ClassAssigments[] | undefined = await getAllClassAssignments(
         session?.user.slots.$id
     );
+    console.log(data);
     return (
         <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-6">

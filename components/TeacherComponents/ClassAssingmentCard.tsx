@@ -1,8 +1,3 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/pSMTZWA7JLY
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ClassAssigments } from "@/types/types.appwrite";
@@ -44,7 +39,9 @@ export default function ClassAssignmentCard({
                     </div>
                     <div className="flex gap-2">
                         <Button asChild variant="ghost" size="sm">
-                            <Link href={`/teacher/${assignment.$id}/update`}>
+                            <Link
+                                href={`/teacher/assignments/${assignment.$id}/update`}
+                            >
                                 <FilePenIcon className="w-4 h-4" />
                                 Update
                             </Link>

@@ -10,6 +10,7 @@ import {
     SortingState,
     getFilteredRowModel,
     ColumnFiltersState,
+    getPaginationRowModel,
 } from "@tanstack/react-table";
 import { Input } from "@/components/ui/input";
 import {
@@ -26,6 +27,7 @@ import { ArrowUpDown, Github, Globe } from "lucide-react";
 import { Models } from "appwrite";
 import { AdminAssignmentSubmission } from "@/types/types.appwrite";
 import { formatDateTime } from "@/lib/utils";
+import { DataTablePagination } from "@/components/ui/DataTablePagination";
 
 export interface AdminAssignment extends Models.Document {
     title: string;
@@ -147,6 +149,7 @@ export default function StudentDataTable({
         onSortingChange: setSorting,
         getSortedRowModel: getSortedRowModel(),
         onColumnFiltersChange: setColumnFilters,
+        getPaginationRowModel: getPaginationRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onGlobalFilterChange: setGlobalFilter,
         state: {
@@ -216,6 +219,7 @@ export default function StudentDataTable({
                         )}
                     </TableBody>
                 </Table>
+                <DataTablePagination table={table} />
             </div>
         </div>
     );

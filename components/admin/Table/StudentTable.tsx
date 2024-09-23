@@ -9,6 +9,7 @@ import {
     SortingState,
     getFilteredRowModel,
     ColumnFiltersState,
+    getPaginationRowModel,
 } from "@tanstack/react-table";
 import { Input } from "@/components/ui/input";
 import {
@@ -24,6 +25,7 @@ import { ArrowUpDown } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { Student } from "@/types/types.appwrite";
+import { DataTablePagination } from "@/components/ui/DataTablePagination";
 
 export default function StudentTable({
     data,
@@ -73,6 +75,10 @@ export default function StudentTable({
         {
             accessorKey: "classTiming",
             header: "Class Timing",
+            cell: ({ row }) => {
+                const student = row.original as Student;
+                return <span>{student.slot.time}</span>;
+            },
         },
     ];
     const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -83,6 +89,7 @@ export default function StudentTable({
     const table = useReactTable({
         data,
         columns,
+        getPaginationRowModel: getPaginationRowModel(),
         getCoreRowModel: getCoreRowModel(),
         onSortingChange: setSorting,
         getSortedRowModel: getSortedRowModel(),
@@ -162,6 +169,7 @@ export default function StudentTable({
                             )}
                         </TableBody>
                     </Table>
+                    <DataTablePagination table={table} />
                 </div>
             </CardContent>
         </Card>

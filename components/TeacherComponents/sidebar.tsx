@@ -16,7 +16,7 @@ const SideBar = () => {
     const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
     return (
         <aside
-            className={`fixed inset-y-0 left-0 z-999 flex h-full flex-col border-r bg-white transition-all duration-300 ${
+            className={`fixed inset-y-0 left-0 z-50 flex h-full flex-col border-r bg-white transition-all duration-300 ${
                 isSidebarExpanded ? "w-64" : "w-14"
             }`}
         >

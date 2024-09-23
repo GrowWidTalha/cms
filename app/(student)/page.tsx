@@ -52,9 +52,14 @@ const StudentDashboard = async () => {
                     Latest Admin Assignment
                 </h1>
                 {latestAdminAssignment ? (
-                    <AdminAssignmentCard
-                        assignment={latestAdminAssignment as AdminAssignment}
-                    />
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {latestAdminAssignment.map((assignment) => (
+                            <AdminAssignmentCard
+                                key={assignment.$id}
+                                assignment={assignment as AdminAssignment}
+                            />
+                        ))}
+                    </div>
                 ) : (
                     <p className="text-gray-600">
                         No admin assignments available at this moment.

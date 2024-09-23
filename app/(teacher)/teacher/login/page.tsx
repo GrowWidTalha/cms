@@ -14,10 +14,13 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import SubmitButton from "@/components/shared/SubmitButton";
+import { toast } from "sonner";
 // TODO: Add a custom error component for the teacher login page
 
 export default function TeacherLoginPage() {
     const router = useRouter();
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -29,25 +32,27 @@ export default function TeacherLoginPage() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        try {
-            const result = await signIn("credentials", {
-                email: formData.email,
-                password: formData.password,
-                role: "teacher",
-                callbackUrl: "/teacher",
-                redirect: false,
-            });
+        setLoading(true);
+        const result = await signIn("credentials", {
+            email: formData.email,
+            password: formData.password,
+            role: "teacher",
+            callbackUrl: "/teacher",
+            redirect: false,
+        });
 
-            if (result?.error) {
-                console.error(result.error);
-                // Handle error (e.g., show error message to user)
-            } else {
-                router.push("/teacher");
+        if (result?.error) {
+            switch (result.code) {
+                case "InvalidTeacherCredentials":
+                    toast.error("Invalid teacher credentials");
+                    break;
+                default:
+                    break;
             }
-        } catch (error) {
-            console.error("An error occurred during sign in:", error);
-            // Handle error (e.g., show error message to user)
+        } else {
+            router.push("/teacher");
         }
+        setLoading(false);
     };
 
     return (
@@ -85,9 +90,7 @@ export default function TeacherLoginPage() {
                         </div>
                     </CardContent>
                     <CardFooter>
-                        <Button type="submit" className="w-full">
-                            Sign In
-                        </Button>
+                        <SubmitButton isLoading={loading}>Login</SubmitButton>
                     </CardFooter>
                 </form>
             </Card>

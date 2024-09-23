@@ -6,6 +6,7 @@ import {
     ColumnDef,
     flexRender,
     getCoreRowModel,
+    getPaginationRowModel,
     useReactTable,
 } from "@tanstack/react-table";
 import Link from "next/link";
@@ -17,6 +18,7 @@ import {
     TableHeader,
     TableRow,
 } from "../ui/table";
+import { DataTablePagination } from "../ui/DataTablePagination";
 
 export const columns: ColumnDef<ClassAssignmentSubmission>[] = [
     {
@@ -104,6 +106,7 @@ export function DataTable<TData, TValue>({
     const table = useReactTable({
         data,
         columns,
+        getPaginationRowModel: getPaginationRowModel(),
         getCoreRowModel: getCoreRowModel(),
     });
 
@@ -158,6 +161,7 @@ export function DataTable<TData, TValue>({
                     )}
                 </TableBody>
             </Table>
+            <DataTablePagination table={table} />
         </div>
     );
 }
