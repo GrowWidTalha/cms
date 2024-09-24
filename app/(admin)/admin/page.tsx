@@ -1,72 +1,51 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/pTONSP1dD4S
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
-"use client";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { ClipboardIcon, CodeIcon, TrophyIcon, UsersIcon } from "lucide-react";
-export default function Component() {
+// "use client";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+import { Users, FileText, Award, Trophy } from "lucide-react";
+import { getChartData } from "@/actions/admin.actions";
+import ChartCard from "@/components/shared/ChartCard";
+import { StatCard } from "@/components/shared/StatCard";
+
+export default async function Dashboard() {
+    const data = await getChartData();
+    const { stats, chartData } = data;
+    console.log(data);
     return (
-        <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 p-4 md:gap-8 md:p-10">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-medium">
-                            Total Students
-                        </CardTitle>
-                        <UsersIcon className="w-4 h-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">1,234</div>
-                        <p className="text-xs text-muted-foreground">
-                            +5% from last month
-                        </p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-medium">
-                            Assignments Submitted
-                        </CardTitle>
-                        <ClipboardIcon className="w-4 h-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">+12,234</div>
-                        <p className="text-xs text-muted-foreground">
-                            +19% from last month
-                        </p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-medium">
-                            Hackathons Submitted
-                        </CardTitle>
-                        <CodeIcon className="w-4 h-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">+573</div>
-                        <p className="text-xs text-muted-foreground">
-                            +201 since last month
-                        </p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-medium">
-                            Milestones Achieved
-                        </CardTitle>
-                        <TrophyIcon className="w-4 h-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">+45</div>
-                        <p className="text-xs text-muted-foreground">
-                            +10 from last month
-                        </p>
-                    </CardContent>
-                </Card>
+        <div className="p-8">
+            <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                <StatCard
+                    title="Total Students"
+                    value={stats.students}
+                    icon={<Users className="h-4 w-4" />}
+                    href="/admin/students"
+                />
+                <StatCard
+                    title="Assignments Submitted"
+                    value={stats.assignments}
+                    icon={<FileText className="h-4 w-4" />}
+                    href="/admin/assignments"
+                />
+                <StatCard
+                    title="Hackathons Submitted"
+                    value={stats.hackathons}
+                    icon={<Award className="h-4 w-4" />}
+                    href="/admin/hackathons"
+                />
             </div>
-        </main>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <ChartCard title="Students Growth" data={chartData.students} />
+                <ChartCard
+                    title="Assignments Submitted"
+                    data={chartData.assignments}
+                />
+                <ChartCard
+                    title="Hackathons Participation"
+                    data={chartData.hackathons}
+                />
+            </div>
+        </div>
     );
 }
