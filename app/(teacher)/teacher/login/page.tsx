@@ -47,9 +47,9 @@ export default function TeacherLoginPage() {
                 default:
                     break;
             }
-        } else {
-            router.push("/teacher");
         }
+
+        router.push("/teacher");
         setLoading(false);
     };
 
