@@ -37,7 +37,6 @@ export default function TeacherLoginPage() {
             password: formData.password,
             role: "teacher",
             callbackUrl: "/teacher",
-            redirect: false,
         });
 
         if (result?.error) {
