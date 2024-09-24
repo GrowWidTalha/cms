@@ -13,6 +13,7 @@ import { ChevronUpIcon, ChevronDownIcon } from "@radix-ui/react-icons";
 interface Column {
     key: string;
     label: string;
+    // @ts-ignore
     render?: (value: any) => JSX.Element;
 }
 

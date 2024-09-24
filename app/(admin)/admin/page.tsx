@@ -1,8 +1,5 @@
 // "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-
 import { Users, FileText, Award, Trophy } from "lucide-react";
 import { getChartData } from "@/actions/admin.actions";
 import ChartCard from "@/components/shared/ChartCard";

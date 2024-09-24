@@ -11,6 +11,7 @@ import {
     getFilteredRowModel,
     ColumnFiltersState,
     getPaginationRowModel,
+    Row,
 } from "@tanstack/react-table";
 import { Input } from "@/components/ui/input";
 import {
@@ -48,7 +49,7 @@ const createMilestoneColumns = (
         (milestone: { name: string; description: string }, index: number) => ({
             accessorKey: milestone.name,
             header: milestone.name,
-            cell: ({ row }: { row: any }) => {
+            cell: ({ row }: { row: Row<AdminAssignmentSubmission> }) => {
                 const responses = JSON.parse(row.original.responses || "[]");
                 const response = responses[index] || {};
                 const githubLink = response.githubURL || "#";

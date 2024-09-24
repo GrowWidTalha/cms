@@ -1,4 +1,4 @@
-import { Users, FileText, Award, Trophy } from "lucide-react";
+import { Users, FileText } from "lucide-react";
 import ChartCard from "@/components/shared/ChartCard";
 import { StatCard } from "@/components/shared/StatCard";
 import { getTeacherChartData } from "@/actions/teacher.actions";

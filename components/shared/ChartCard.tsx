@@ -131,7 +131,7 @@ export default function ChartCard({ title, data }: ChartCardProps) {
                                 tickMargin={10}
                                 axisLine={false}
                                 tickFormatter={(value) =>
-                                    new Date(value).getDate()
+                                    `${new Date(value).getDate()}`
                                 }
                                 interval={0}
                             />

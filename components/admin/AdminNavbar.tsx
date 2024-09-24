@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "../ui/button";
-import { MenuIcon, SearchIcon } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 import { Input } from "../ui/input";
 import {
     DropdownMenu,
