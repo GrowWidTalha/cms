@@ -43,7 +43,7 @@ export default auth(async (req) => {
   if (isTeacherRoute) {
     if (!isLoggedIn) {
       // Allow unauthenticated users access to /teacher or /teacher/login
-      if (nextUrl.pathname === "/teacher" || nextUrl.pathname === "/teacher/login") {
+      if (nextUrl.pathname === "/teacher/login") {
         return null;
       }
       // Redirect unauthenticated users trying to access other teacher routes to login
