@@ -39,7 +39,7 @@ export const columns: ColumnDef<ClassAssignmentSubmission>[] = [
             return (
                 <Link
                     className="underline"
-                    href={`/assignment/${assignment.$id}`}
+                    href={`/assignment/${assignment.$id}?type=classAssignment`}
                 >
                     {assignment.title}
                 </Link>

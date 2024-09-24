@@ -19,13 +19,13 @@ export default async function Dashboard() {
                     title="Total Students"
                     value={stats.students}
                     icon={<Users className="h-4 w-4" />}
-                    href="/admin/students"
+                    href="/teacher/students"
                 />
                 <StatCard
                     title="Assignments Submitted"
                     value={stats.assignmentsSubmissions}
                     icon={<FileText className="h-4 w-4" />}
-                    href="/admin/assignments"
+                    href="/teacher/assignments"
                 />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

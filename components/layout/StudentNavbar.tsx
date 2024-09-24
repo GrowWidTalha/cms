@@ -9,7 +9,9 @@ export default function StudentNavbar() {
         <header className="border-b">
             <div className="container mx-auto px-4">
                 <nav className="flex items-center justify-between h-16">
-                    <div className="text-2xl font-bold">CMS</div>
+                    <Link href={"/"}>
+                        <div className="text-2xl font-bold">CMS</div>
+                    </Link>
                     <ul className="hidden md:flex space-x-4">
                         <li>
                             <Button variant="ghost" asChild>

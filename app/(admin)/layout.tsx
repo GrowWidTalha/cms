@@ -7,11 +7,10 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className="flex min-h-screen w-full">
             <AdminSideBar />
-            <div className="flex flex-1 flex-col">
+            <div className="flex flex-1 ml-10 flex-col">
                 <AdminNavbar />
                 <div className="flex-1 ml-6 p-4 sm:ml-6">
                     {children}
-
                     <AdminPasskeyDialog />
                 </div>
             </div>
