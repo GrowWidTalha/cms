@@ -25,6 +25,9 @@ export default auth((req) => {
   const isAdminRoute = nextUrl.pathname.startsWith("/admin");
   const isTeacherRoute = nextUrl.pathname.startsWith("/teacher");
 
+  if(isAuthRoute){
+    return null
+  }
   // Allow API authentication routes
   if (isApiAuthRoute) {
     return null;
