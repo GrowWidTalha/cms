@@ -1,4 +1,3 @@
-import NextAuth from "next-auth";
 import { auth } from "@/auth";
 
 const DEFAULT_LOGIN_REDIRECT = "/"
@@ -18,8 +17,9 @@ export const publicRoutes = [
 ];
 
 // @ts-ignore
-export default auth((req) => {
-  const { nextUrl } = req;
+export default auth(async (req) => {
+    const { nextUrl } = req;
+    const session = await auth();
 
   const isLoggedIn = !!req.auth;
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
@@ -36,6 +36,13 @@ export default auth((req) => {
   // Allow access to admin routes and their children
   if (isAdminRoute) {
     return null;
+  }
+  if(isTeacherRoute){
+    if(session?.user?.role === "teacher"){
+      return null;
+    } else {
+        return Response.redirect(new URL("/", nextUrl))
+    }
   }
 
   // Redirect logged-in users from auth routes to default redirect
