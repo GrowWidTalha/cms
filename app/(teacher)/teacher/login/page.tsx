@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/card";
 import SubmitButton from "@/components/shared/SubmitButton";
 import { toast } from "sonner";
+import { auth } from "@/auth";
 // TODO: Add a custom error component for the teacher login page
 
 export default function TeacherLoginPage() {
@@ -24,6 +25,16 @@ export default function TeacherLoginPage() {
         email: "",
         password: "",
     });
+
+    useEffect(() => {
+        const checkLogin = async () => {
+            const session = await auth();
+            if (session?.user?.role === "teacher") {
+                router.push("/teacher");
+            }
+        };
+        checkLogin();
+    }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
