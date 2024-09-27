@@ -44,8 +44,6 @@ export const authConfig: NextAuthConfig = {
                             const student = await authenticateUser(
                                 email,
                                 password,
-                                rollNumber,
-                                classTiming
                             );
                             if (!student) {
                                 throw new InvalidCredentialsError()
