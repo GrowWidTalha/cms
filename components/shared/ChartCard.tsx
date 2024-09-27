@@ -1,16 +1,10 @@
 "use client";
+
 import React, { useState, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-    BarChart,
-    Bar,
-    CartesianGrid,
-    XAxis,
-    YAxis,
-    ResponsiveContainer,
-} from "recharts";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis } from "recharts";
+import { ChevronLeft, ChevronRight, BarChart3 } from "lucide-react";
 import {
     ChartConfig,
     ChartContainer,
@@ -30,8 +24,30 @@ interface ChartCardProps {
     data: ChartDataPoint[];
 }
 
+function EmptyState({ title }: { title: string }) {
+    return (
+        <Card className="w-full h-[400px] flex flex-col items-center justify-center">
+            <CardHeader>
+                <CardTitle>{title}</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+                <BarChart3 className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+                <p className="text-lg font-medium text-gray-600">
+                    No data available
+                </p>
+                <p className="text-sm text-gray-500 mt-2">
+                    There is no data to display for this chart at the moment.
+                </p>
+            </CardContent>
+        </Card>
+    );
+}
+
 export default function ChartCard({ title, data }: ChartCardProps) {
-    if (!data.length) return <>No Data provided</>;
+    if (!data || data.length === 0) {
+        return <EmptyState title={title} />;
+    }
+
     const chartConfig: ChartConfig = {
         count: {
             label: "Count",
@@ -80,9 +96,6 @@ export default function ChartCard({ title, data }: ChartCardProps) {
         });
     };
 
-    // const minDate = new Date(
-    //     Math.min(...data.map((d) => new Date(d.date).getTime()))
-    // );
     const maxDate = new Date(
         Math.max(...data.map((d) => new Date(d.date).getTime()))
     );
@@ -98,9 +111,9 @@ export default function ChartCard({ title, data }: ChartCardProps) {
                         variant="outline"
                         size="icon"
                         onClick={() => navigateMonth("prev")}
-                        // disabled={currentDate <= minDate}
                     >
                         <ChevronLeft className="h-4 w-4" />
+                        <span className="sr-only">Previous month</span>
                     </Button>
                     <span className="font-medium">
                         {currentDate.toLocaleString("default", {
@@ -119,36 +132,35 @@ export default function ChartCard({ title, data }: ChartCardProps) {
                         }
                     >
                         <ChevronRight className="h-4 w-4" />
+                        <span className="sr-only">Next month</span>
                     </Button>
                 </div>
-                <ChartContainer config={chartConfig} className="h-[300px]">
-                    <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={currentMonthData}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis
-                                dataKey="date"
-                                tickLine={false}
-                                tickMargin={10}
-                                axisLine={false}
-                                tickFormatter={(value) =>
-                                    `${new Date(value).getDate()}`
-                                }
-                                interval={0}
-                            />
-                            <YAxis
-                                tickLine={false}
-                                tickMargin={10}
-                                axisLine={false}
-                            />
-                            <ChartTooltip content={<ChartTooltipContent />} />
-                            <ChartLegend content={<ChartLegendContent />} />
-                            <Bar
-                                dataKey="count"
-                                fill="var(--color-count)"
-                                radius={[4, 4, 0, 0]}
-                            />
-                        </BarChart>
-                    </ResponsiveContainer>
+                <ChartContainer config={chartConfig}>
+                    <BarChart data={currentMonthData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis
+                            dataKey="date"
+                            tickLine={false}
+                            tickMargin={10}
+                            axisLine={false}
+                            tickFormatter={(value) =>
+                                `${new Date(value).getDate()}`
+                            }
+                            interval={0}
+                        />
+                        <YAxis
+                            tickLine={false}
+                            tickMargin={10}
+                            axisLine={false}
+                        />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <ChartLegend content={<ChartLegendContent />} />
+                        <Bar
+                            dataKey="count"
+                            fill="var(--color-count)"
+                            radius={[4, 4, 0, 0]}
+                        />
+                    </BarChart>
                 </ChartContainer>
             </CardContent>
         </Card>

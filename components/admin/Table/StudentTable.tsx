@@ -163,7 +163,7 @@ export default function StudentTable({
                                         colSpan={columns.length}
                                         className="h-24 text-center"
                                     >
-                                        No results.
+                                        No Students Found.
                                     </TableCell>
                                 </TableRow>
                             )}

@@ -29,6 +29,7 @@ import { Models } from "appwrite";
 import { AdminAssignmentSubmission } from "@/types/types.appwrite";
 import { formatDateTime } from "@/lib/utils";
 import { DataTablePagination } from "@/components/ui/DataTablePagination";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export interface AdminAssignment extends Models.Document {
     title: string;
@@ -80,6 +81,30 @@ const createMilestoneColumns = (
 };
 
 const baseColumns: ColumnDef<AdminAssignmentSubmission>[] = [
+    {
+        id: "select",
+        header: ({ table }) => (
+            <Checkbox
+                checked={
+                    table.getIsAllPageRowsSelected() ||
+                    (table.getIsSomePageRowsSelected() && "indeterminate")
+                }
+                onCheckedChange={(value) =>
+                    table.toggleAllPageRowsSelected(!!value)
+                }
+                aria-label="Select all"
+            />
+        ),
+        cell: ({ row }) => (
+            <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
+                aria-label="Select row"
+            />
+        ),
+        enableSorting: false,
+        enableHiding: false,
+    },
     {
         accessorKey: "name",
         header: "Student",
@@ -134,6 +159,8 @@ export default function StudentDataTable({
     assignment,
 }: StudentDataTableProps) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
+    const [rowSelection, setRowSelection] = React.useState({});
+
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
     const [globalFilter, setGlobalFilter] = React.useState("");
@@ -153,10 +180,13 @@ export default function StudentDataTable({
         getPaginationRowModel: getPaginationRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         onGlobalFilterChange: setGlobalFilter,
+        onRowSelectionChange: setRowSelection,
+
         state: {
             sorting,
             columnFilters,
             globalFilter,
+            rowSelection,
         },
     });
 

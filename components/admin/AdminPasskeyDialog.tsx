@@ -67,7 +67,7 @@ export default function AdminPasskeyDialog() {
 
     return (
         <Dialog open={isOpen} onOpenChange={() => {}}>
-            <DialogContent>
+            <DialogContent className="sm:max-w-md">
                 <DialogHeader>
                     <DialogTitle>Enter Admin Passcode</DialogTitle>
                 </DialogHeader>
@@ -84,13 +84,31 @@ export default function AdminPasskeyDialog() {
                                     <FormLabel>Admin Passcode</FormLabel>
                                     <FormControl>
                                         <InputOTP maxLength={6} {...field}>
-                                            <InputOTPGroup>
-                                                <InputOTPSlot index={0} />
-                                                <InputOTPSlot index={1} />
-                                                <InputOTPSlot index={2} />
-                                                <InputOTPSlot index={3} />
-                                                <InputOTPSlot index={4} />
-                                                <InputOTPSlot index={5} />
+                                            <InputOTPGroup className="gap-2">
+                                                <InputOTPSlot
+                                                    index={0}
+                                                    className="w-[48px] h-[56px] text-2xl"
+                                                />
+                                                <InputOTPSlot
+                                                    index={1}
+                                                    className="w-[48px] h-[56px] text-2xl"
+                                                />
+                                                <InputOTPSlot
+                                                    index={2}
+                                                    className="w-[48px] h-[56px] text-2xl"
+                                                />
+                                                <InputOTPSlot
+                                                    index={3}
+                                                    className="w-[48px] h-[56px] text-2xl"
+                                                />
+                                                <InputOTPSlot
+                                                    index={4}
+                                                    className="w-[48px] h-[56px] text-2xl"
+                                                />
+                                                <InputOTPSlot
+                                                    index={5}
+                                                    className="w-[48px] h-[56px] text-2xl"
+                                                />
                                             </InputOTPGroup>
                                         </InputOTP>
                                     </FormControl>

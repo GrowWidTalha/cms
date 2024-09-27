@@ -22,15 +22,21 @@ export default async function Component() {
                     </Link>
                 </Button>
             </div>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {assignments?.map((assignment: AdminAssignment) => (
-                    <AssignmentCard
-                        type="assignment"
-                        key={assignment.$id}
-                        assignment={assignment}
-                    />
-                ))}
-            </div>
+            {assignments.length === 0 ? (
+                <div className="text-center text-sm text-gray-500">
+                    No assignments found
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {assignments?.map((assignment: AdminAssignment) => (
+                        <AssignmentCard
+                            type="assignment"
+                            key={assignment.$id}
+                            assignment={assignment}
+                        />
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

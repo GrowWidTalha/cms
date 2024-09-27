@@ -24,7 +24,7 @@ const page = async ({
         session.user.id
     );
     if (!assignment) {
-        return <div>No assignment found</div>;
+        return <div className="text-center text-2xl">Assignment not found</div>;
     }
     return (
         <AssignmentDetails

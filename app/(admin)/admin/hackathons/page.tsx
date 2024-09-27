@@ -22,15 +22,21 @@ export default async function Component() {
                     </Link>
                 </Button>
             </div>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {hackathons?.map((hackathon: AdminAssignment) => (
-                    <AssignmentCard
-                        type="hackathon"
-                        key={hackathon.$id}
-                        assignment={hackathon}
-                    />
-                ))}
-            </div>
+            {hackathons.length === 0 ? (
+                <div className="text-center text-sm text-gray-500">
+                    No assignments found
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {hackathons?.map((hackathon: AdminAssignment) => (
+                        <AssignmentCard
+                            type="hackathon"
+                            key={hackathon.$id}
+                            assignment={hackathon}
+                        />
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

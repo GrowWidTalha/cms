@@ -29,7 +29,9 @@ const page = async () => {
                         ))}
                     </div>
                 ) : (
-                    <p>No assignments found.</p>
+                    <p className="text-center text-2xl">
+                        No assignments found.
+                    </p>
                 )}
             </section>
             <section className="mt-10">
@@ -46,7 +48,9 @@ const page = async () => {
                         ))}
                     </div>
                 ) : (
-                    <p>No assignments found.</p>
+                    <p className="text-center text-2xl">
+                        No Admin assignments found
+                    </p>
                 )}
             </section>
         </div>

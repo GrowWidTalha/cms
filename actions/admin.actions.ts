@@ -14,12 +14,10 @@ import { parseStringify } from "@/lib/utils";
 import { CreateAssignmentProps, CreateTeacherProps } from "@/types";
 import {
     AdminAssignment,
-    AdminAssignmentSubmission,
 } from "@/types/types.appwrite";
 import { revalidatePath } from "next/cache";
 import { ID, Query } from "node-appwrite";
 import { Student } from "@/types/types.appwrite";
-import { SubmissionData } from "@/components/StudentComponents/columns";
 
 export const createAssignment = async (assignment: CreateAssignmentProps) => {
     try {
@@ -39,6 +37,14 @@ export const createAssignment = async (assignment: CreateAssignmentProps) => {
                 isPublished: assignment.isPublished,
             }
         );
+        revalidatePath("/admin/assignments");
+        revalidatePath(`/admin/assignments/${document.$id}/update`);
+        revalidatePath(`/admin/assignments/${document.$id}/`);
+        revalidatePath("/admin/hackathons");
+        revalidatePath(`/admin/hackathons/${document.$id}/update`);
+        revalidatePath(`/admin/hackathons/${document.$id}/`);
+        revalidatePath("/");
+        revalidatePath("/assignments");
         return parseStringify(document);
     } catch (error) {
         console.log("Error Creating Assignment: ", error);
@@ -68,7 +74,7 @@ export const getAssignmentById = async (assignmentId: string) => {
         const responses = await databases.listDocuments(
             DATABASE_ID!,
             ADMIN_ASSIGN_SUB_COLL_ID!,
-            [Query.equal("assignment", assignment.$id)]
+            [Query.equal("assignment", assignmentId)]
         );
         return { assignment, responses };
     } catch (error) {
@@ -98,8 +104,11 @@ export const updateAssignment = async (
             }
         );
         revalidatePath("/admin/assignments");
+        revalidatePath("/admin/hackathons");
         revalidatePath(`/admin/assignments/${assignmentId}/update`);
+        revalidatePath(`/admin/hackathons/${assignmentId}/update`);
         revalidatePath(`/admin/assignments/${assignmentId}`);
+        revalidatePath(`/admin/hackathons/${assignmentId}`);
         return parseStringify(document);
     } catch (error) {
         console.log("Error Updating Assignment: ", error);
@@ -162,6 +171,7 @@ export const createTeacher = async (teacher: CreateTeacherProps) => {
             Please change your password after logging in.
             </p>`,
         });
+        revalidatePath("/admin/teachers");
         return parseStringify(document);
     } catch (error) {
         console.log("Error Creating Teacher: ", error);
@@ -179,7 +189,6 @@ export const createSlot = async (slot: string) => {
             }
         );
         revalidatePath("/admin/teachers");
-        revalidatePath("/admin/teachers/create");
         return parseStringify(document);
     } catch (error) {
         console.log("Error Creating Slot Enum: ", error);
@@ -227,7 +236,6 @@ export const updateTeacher = async (
             }
         );
         revalidatePath("/admin/teachers");
-        revalidatePath(`/admin/teachers/${teacherId}/update`);
         revalidatePath("/teacher/profile");
         return parseStringify(document);
     } catch (error) {

@@ -1,8 +1,3 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/fAwuVpths4E
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 import Link from "next/link";
 import { Switch } from "@/components/ui/switch";
 import { getAssignmentById } from "@/actions/admin.actions";
@@ -25,6 +20,7 @@ export default async function AssignmentPage({
     if (!assignment || !responses) {
         return <div>Invalid hackathon data</div>;
     }
+    console.log(responses);
     return (
         <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
             <div className="mb-6 flex items-center justify-between">

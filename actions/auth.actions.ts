@@ -1,11 +1,12 @@
 'use server'
 import { cache } from '../lib/cache';
-import { DATABASE_ID, databases, TEACHER_COLL_ID, USER_COLLECTION_ID } from '@/lib/appwrite'
+import { DATABASE_ID, databases, USER_COLLECTION_ID } from '@/lib/appwrite'
 import { ID, Query } from 'appwrite'
 import bcrypt from 'bcryptjs'
 import { parseStringify } from "@/lib/utils";
+import { revalidatePath } from 'next/cache';
 
-export async function authenticateUser(email: string, password: string, rollNumber: string, classTiming: string) {
+export async function authenticateUser(email: string, password: string) {
   try {
     const users = await databases.listDocuments(
       DATABASE_ID!,
@@ -55,7 +56,10 @@ export async function createUser(name: string, email: string, password: string, 
         slot: classTiming,
       }
     )
+    revalidatePath("/teacher")
 
+    revalidatePath("/teacher/students")
+    revalidatePath("/admin/students")
     return {
       id: user.$id,
       email: user.email,

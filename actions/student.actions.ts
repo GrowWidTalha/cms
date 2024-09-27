@@ -109,6 +109,7 @@ export const submitClassAssignmentResponse = async (responseData: SubmitClassAss
         }
        )
        revalidatePath(`/assignment/${responseData.assignment}`)
+       revalidatePath("/teacher/assignments")
        return parseStringify(document)
    } catch (error) {
        console.log('Error Submittin Class Assignment Response: ', error)
@@ -127,6 +128,9 @@ export const submitHackathonOrAssignmentResponse = async (responseData: SubmitHa
         }
        )
        revalidatePath(`/assignment/${responseData.assignment}`)
+       revalidatePath("/profile")
+       revalidatePath(`/admin/assignments/${responseData.assignment}`)
+       revalidatePath(`/admin/hackathons/${responseData.assignment}`)
        return parseStringify(response)
    } catch (error) {
        console.log('Error Submitting Hackathon/Assignment Response: ', error)

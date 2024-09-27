@@ -10,7 +10,7 @@ const ProfilePage = async () => {
         return <p>Teacher not found</p>;
     }
     return (
-        <div>
+        <div className="flex items-center justify-center w-full h-screen overflow-hidden">
             <TeacherProfile teacherData={teacher} />
         </div>
     );

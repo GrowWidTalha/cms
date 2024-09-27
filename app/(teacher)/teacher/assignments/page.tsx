@@ -13,9 +13,8 @@ export default async function TeacherAssignmentsPage() {
     const data: ClassAssigments[] | undefined = await getAllClassAssignments(
         session?.user.slots.$id
     );
-    console.log(data);
     return (
-        <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        <div className="container mx-auto px-8 py-8 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-6">
                 <h1 className="text-2xl font-bold">Assignments</h1>
                 <Button asChild size="sm">
@@ -24,14 +23,22 @@ export default async function TeacherAssignmentsPage() {
                     </Link>
                 </Button>
             </div>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {data?.map((assignment: ClassAssigments) => (
-                    <ClassAssignmentCard
-                        key={assignment.$id}
-                        assignment={assignment}
-                    />
-                ))}
-            </div>
+            {data?.length === 0 ? (
+                <div className="flex items-center justify-center">
+                    <p className="text-lg font-medium text-gray-600">
+                        No assignments found
+                    </p>
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    {data?.map((assignment: ClassAssigments) => (
+                        <ClassAssignmentCard
+                            key={assignment.$id}
+                            assignment={assignment}
+                        />
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

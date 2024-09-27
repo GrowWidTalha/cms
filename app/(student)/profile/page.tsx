@@ -19,7 +19,7 @@ export default async function StudentInfoPage() {
     );
 
     if (!student) {
-        return <div>No student found</div>;
+        return <div>Student not found</div>;
     }
 
     return (

@@ -2,7 +2,6 @@
 import { CLASS_ASSIGN_COLL_ID, CLASS_ASSIGN_SUB_COLL_ID, DATABASE_ID, databases, TEACHER_COLL_ID, USER_COLLECTION_ID } from "@/lib/appwrite"
 import { parseStringify } from "@/lib/utils";
 import { CreateClassAssignmentProps, UpdateClassAssignmentProps } from "@/types"
-import { ClassAssigments } from "@/types/types.appwrite";
 import { revalidatePath } from "next/cache";
 import { ID, Query } from "node-appwrite"
 import { processChartData } from "./admin.actions";
@@ -17,6 +16,10 @@ export const createClassAssignment = async (assignment: CreateClassAssignmentPro
         slot: assignment.classSlot,
         isPublished: assignment.isPublished,
        })
+       revalidatePath("/")
+       revalidatePath("/profile")
+       revalidatePath("/teacher/")
+       revalidatePath("/teacher/assignments")
        return document
     } catch (error) {
         console.log("Error creating class assignment", error);

@@ -48,19 +48,18 @@ export default function TeacherLoginPage() {
             password: formData.password,
             role: "teacher",
             callbackUrl: "/teacher",
+            redirect: false,
         });
 
-        if (result?.error) {
-            switch (result.code) {
-                case "InvalidTeacherCredentials":
-                    toast.error("Invalid teacher credentials");
-                    break;
-                default:
-                    break;
-            }
+        console.log(result);
+
+        if (result?.code === "InvalidTeacherCredentials") {
+            toast.error("Invalid teacher credentials");
+        } else {
+            toast.success("Successfully logged in as a teacher");
+            router.push("/teacher");
         }
 
-        router.push("/teacher");
         setLoading(false);
     };
 

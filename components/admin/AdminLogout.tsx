@@ -4,13 +4,13 @@ import { toast } from "sonner";
 import { Button } from "../ui/button";
 
 const AdminLogout = ({ children }: { children: React.ReactNode }) => {
-    const router = useRouter();
     function logout() {
         localStorage.removeItem("isAuthenticated");
         toast.success("Logged Out Successfully", {
             description: "You have been logged out of the admin panel.",
         });
-        router.push("/admin"); // Redirect to home page or login page
+        // router.push("/admin"); // Redirect to home page or login page
+        window.location.reload();
     }
     return (
         <Button

@@ -11,7 +11,7 @@ export default async function StudentDataPage() {
     if (!session) return;
     const result = await getAllStudents(session.user.slots.$id);
     if (!result) {
-        return <div>No students found</div>;
+        return <div className="text-center text-2xl">No students found</div>;
     }
     return (
         <div className="container mx-auto py-10">
